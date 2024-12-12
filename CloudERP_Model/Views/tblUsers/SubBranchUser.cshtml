@@ -1,0 +1,106 @@
+﻿@model IEnumerable<DatabaseAccess.tblUser>
+
+@{
+    string controllerName = "tblUsers";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "User Operations";
+    ViewBag.Title = "All Sub Branch Users";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="container">
+                    <div class="row mb-3">
+                        <div class="col-sm-6">
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-default btn-filter" data-target="all">All</button>
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-success btn-filter" data-target="approved">Approved</button>
+                            <button type="button" class="btn mb-1 btn-simple btn-sm btn-danger btn-filter" data-target="pending">Pending</button>
+                        </div>
+                        <div class="col-sm-6 d-flex justify-content-end">
+                            <input class="form-control" name="search" id="search" type="text" placeholder="Search..." style="max-width: 300px;">
+                        </div>
+                    </div>
+                    <div class="table-responsive m-t-20">
+                        <table class="table table-filter table-hover mb-0">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Contact No</th>
+                                    <th>User Name</th>
+                                    <th>Status</th>
+                                    <th>User Type</th>
+                                    <th>Action's</th>
+                                </tr>
+                            </thead>
+                            <tbody id="searchValue">
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    var item = Model.ElementAt(i);
+                                    <tr data-status="@((item.IsActive ? "approved" : "pending"))">
+                                        <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                        <td>@Html.DisplayFor(modelItem => item.FullName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.Email)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.ContactNo)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.UserName)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.IsActive)</td>
+                                        <td>@Html.DisplayFor(modelItem => item.tblUserType.UserType)</td>
+                                        <td>
+                                            <a href="@Url.Action("Edit", new { id = item.UserID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Update">
+                                                <i class="icon-pencil" aria-hidden="true"></i>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>Full Name</th>
+                                    <th>Email</th>
+                                    <th>Contact No</th>
+                                    <th>User Name</th>
+                                    <th>Status</th>
+                                    <th>User Type</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        // Search functionality
+        $("#search").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#searchValue tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+            });
+        });
+
+        // Filter functionality
+        $('.btn-filter').on('click', function () {
+            var $target = $(this).data('target');
+            if ($target === 'all') {
+                $('.table tr').fadeIn('slow');
+            } else {
+                $('.table tr').each(function () {
+                    var status = $(this).data('status');
+                    if (status === $target) {
+                        $(this).fadeIn('slow');
+                    } else {
+                        $(this).hide();
+                    }
+                });
+            }
+        });
+    });
+</script>

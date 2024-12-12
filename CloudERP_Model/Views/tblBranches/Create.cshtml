@@ -1,0 +1,79 @@
+﻿@model DatabaseAccess.tblBranch
+
+@{
+    string controllerName = "tblBranches";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Branches";
+    ViewBag.Title = "Add Branch";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="card">
+                <div class="body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="row clearfix mb-3">
+                            <div class="col-lg-4 col-md-12 mb-3">
+                                @Html.LabelFor(model => model.BrchID, "Select Top Branch", htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-12">
+                                    @Html.DropDownList("BrchID", null, "--Select Top Branch--", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BrchID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                            <div class="col-lg-4 col-md-12">
+                                @Html.LabelFor(model => model.BranchTypeID, "Branch Level", htmlAttributes: new { @class = "control-label col-md-6" })
+                                <div class="col-md-12">
+                                    @Html.DropDownList("BranchTypeID", null, "--Select Level--", htmlAttributes: new { @class = "form-control" })
+                                    @Html.ValidationMessageFor(model => model.BranchTypeID, "", new { @class = "text-danger" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchName, "Branch Name", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.BranchName, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.BranchName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchContact, "Contact No", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(model => model.BranchContact, new { htmlAttributes = new { @class = "form-control", id = "phone" } })
+                                @Html.ValidationMessageFor(model => model.BranchContact, "", new { @class = "text-danger" })
+                                <span class="help-block">(999) 999-9999</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.BranchAddress, "Branch Address", htmlAttributes: new { @class = "control-label col-md-6" })
+                            <div class="col-md-8">
+                                @Html.TextAreaFor(model => model.BranchAddress, new { @class = "form-control", cols = 30, rows = 3 })
+                                @Html.ValidationMessageFor(model => model.BranchAddress, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary">
+                                    Create
+                                </button>
+                                @*<a href="@Url.Action("Index", "tblBranches")" class="btn btn-default">
+                                    <i class="icon-arrow-left mr-2"></i> All Branche's
+                                </a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

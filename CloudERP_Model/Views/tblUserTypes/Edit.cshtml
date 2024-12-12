@@ -1,0 +1,49 @@
+﻿@model DatabaseAccess.tblUserType
+
+@{
+    string controllerName = "tblUserTypes";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "Index";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "All User Types";
+    ViewBag.Title = "Update User Type Details";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        @using (Html.BeginForm())
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="card">
+                <div class="body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.UserTypeID)
+
+                        <div class="form-group mb-3">
+                            @Html.LabelFor(model => model.UserType, htmlAttributes: new { @class = "form-label col-sm-2 col-form-label" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.UserType, new { htmlAttributes = new { @class = "form-control" } })
+                                @Html.ValidationMessageFor(model => model.UserType, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary">
+                                    Save
+                                </button>
+                                <a href="@Url.Action("Index", "tblUserTypes")" class="btn btn-default">
+                                    <i class="icon-arrow-left mr-2"></i> Back
+                                </a>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

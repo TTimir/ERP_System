@@ -1,0 +1,193 @@
+﻿@model DatabaseAccess.tblPayroll
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>:: @Session["CName"] :: @ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Run & Co Business Managment">
+    <meta name="author" content="Timir Bhingradiya, design by: Timir Bhingradiya">
+    <link rel="icon" href="~/Content/img/favicon/fav-logo.png" type="image/x-icon">
+
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/font-awesome/css/font-awesome.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css">
+
+</head>
+
+<body data-theme="light" class="font-nunito">
+
+    <div id="wrapper" class="theme-cyan">
+
+        <!-- Page Loader -->
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="m-t-30"><img src="~/Content/assets/images/logo-icon.svg" width="48" height="48" alt="Iconic"></div>
+                <p>Please wait...</p>
+            </div>
+        </div>
+
+        <div class="container-fluid mt-5">
+            <div class="row clearfix">
+                <div class="col-lg-12">
+                    <div class="card">
+                        <div class="body">
+                            <h3>Invoice Details : <strong class="text-primary">#@Model.PayrollInvoiceNo</strong></h3>
+                            <ul class="nav nav-tabs-new2">
+                                <li class="nav-item inlineblock"><a class="nav-link active" data-toggle="tab" href="#details" aria-expanded="true">Details</a></li>
+                                <li class="nav-item inlineblock"><a class="nav-link" data-toggle="tab" href="#history" aria-expanded="false">History</a></li>
+                            </ul>
+                            <div class="tab-content">
+                                <div role="tabpanel" class="tab-pane in active" id="details" aria-expanded="true">
+                                    <div class="row clearfix">
+                                        <div class="col-md-6 col-sm-6">
+                                            <div class="invoice-top clearfix">
+                                                <div class="logo">
+                                                    @{
+                                                        string imageUrl = Model.tblCompany.Logo;
+                                                        if (string.IsNullOrEmpty(imageUrl))
+                                                        {
+                                                            imageUrl = "~/Content/Template/assets/images/default_company_logo.png";
+                                                        }
+                                                    }
+                                                    <img src="@Url.Content(imageUrl)" class="rounded-circle img-fluid" width="100" alt="Company Picture">
+                                                    Company Name : <strong>@Model.tblCompany.Name</strong>
+                                                </div>
+                                                <address>
+                                                    <hr />
+                                                    Branch Name : @Model.tblBranch.BranchName<br>
+                                                    Branch Address : @Model.tblBranch.BranchAddress<br>
+                                                    <abbr title="Phone">P:</abbr> @Model.tblBranch.BranchContact
+                                                </address>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 text-right">
+                                            <p class="mb-0"><strong>Salary Paid Date: </strong> @Model.PaymentDate.ToString("MMMM dd, yyyy")</p>
+                                            <p class="mb-0"><strong>Order Status: </strong> <span class="badge badge-success mb-0">Paid Success</span></p>
+                                            <p><strong>Invoice ID: </strong> @Model.PayrollID</p>
+                                            <p><strong>Print Date: </strong> @DateTime.Now.ToString("dd/MM/yyyy mm:hh:ss tt")</p>
+                                        </div>
+                                    </div>
+                                    <div class="row clearfix">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-hover">
+                                                    <thead class="thead-dark">
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Employee</th>
+                                                            <th class="hidden-sm-down">Salary Month</th>
+                                                            <th>Salary Year</th>
+                                                            <th class="hidden-sm-down">User</th>
+                                                            <th>Salary Paid</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>@Model.tblEmployee.Name</td>
+                                                            <td>@DateTime.Now.AddMonths(-1).ToString("MMMM")</td>
+                                                            <td>@DateTime.Now.AddYears(-1).ToString("yyyy")</td>
+                                                            <td>@Model.tblUser.UserName</td>
+                                                            <td>₹@Model.TransferAmount</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row clearfix">
+                                        <div class="col-md-6">
+                                            <h5>Note</h5>
+                                            <p>This invoice is an electronically generated copy and does not require a physical signature.</p>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <p class="mb-0"><b>Sub-total:</b> @Model.TransferAmount.00</p>
+                                            <p class="mb-0">Tax: 0.00%</p>
+                                            <h3 class="mb-0 m-t-10">INR @Model.TransferAmount.00</h3>
+                                        </div>
+                                        <div class="hidden-print col-md-12 text-right">
+                                            <hr>
+                                            <button class="btn btn-outline-secondary" onclick="window.print()"><i class="icon-printer"></i></button>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div role="tabpanel" class="tab-pane" id="history" aria-expanded="false">
+                                    <div class="row">
+                                        <div class="col-md-6 col-sm-6">
+                                            <address>
+                                                Branch : <strong>@Model.tblBranch.BranchName</strong><br>
+                                                Address : @Model.tblBranch.BranchAddress<br>
+                                                <abbr title="Phone">P:</abbr> @Model.tblBranch.BranchContact
+                                            </address>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6 text-right">
+                                            <p class="mb-0"><strong>Salary Paid Date: </strong> @Model.PaymentDate.ToString("MMMM dd, yyyy")</p>
+                                            <p class="mb-0"><strong>Order Status: </strong> <span class="badge badge-success mb-0">Paid Success</span></p>
+                                            <p><strong>Invoice ID: </strong> @Model.PayrollID</p>
+                                        </div>
+                                    </div>
+                                    <div class="mt-40"></div>
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <div class="table-responsive">
+                                                <table class="table table-striped">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>#</th>
+                                                            <th>Actions</th>
+                                                            <th>Details</th>
+                                                            <th>Status</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>1</td>
+                                                            <td>Transfer Amount</td>
+                                                            <td>₹@Model.TransferAmount.00</td>
+                                                            <td><span class="badge badge-default">-</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>2</td>
+                                                            <td>Salary(Month, Year)</td>
+                                                            <td>@DateTime.Now.AddMonths(-1).ToString("MMMM"), @DateTime.Now.AddYears(-1).ToString("yyyy")</td>
+                                                            <td><span class="badge badge-default">-</span></td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>3</td>
+                                                            <td>Invoice Paid</td>
+                                                            <td>@Model.PaymentDate.ToString("dd/MM/yyyy")</td>
+                                                            <td><span class="badge badge-success">Success</span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Javascript -->
+    <script src="~/Content/assets/bundles/libscripts.bundle.js"></script>
+    <script src="~/Content/assets/bundles/vendorscripts.bundle.js"></script>
+
+    <!-- page js file -->
+    <script src="~/Content/assets/bundles/mainscripts.bundle.js"></script>
+</body>
+</html>

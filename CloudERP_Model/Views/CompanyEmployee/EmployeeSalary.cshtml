@@ -1,0 +1,130 @@
+﻿@model CloudERP_Model.Models.SalaryMV
+
+@{
+    string controllerName = "BranchEmployee";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "Employee";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "Branch's";
+    ViewBag.Title = "Employee Salary";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        @using (Html.BeginForm("EmployeeSalary", "CompanyEmployee", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="card">
+                <div class="body">
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.CNIC, "Employee Computerized National Identity Card (CNIC)", htmlAttributes: new { @class = "control-label col-md-12" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.CNIC, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.CNIC, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="col-md-offset-2 col-md-10">
+                            <button type="submit" class="btn btn-info">
+                                Search
+                            </button>
+                            @*<a href="@Url.Action("AllTransaction", "GeneralTransactions")" class="btn btn-default">
+                                    <i class="icon-arrow-left mr-2"></i> Back
+                                </a>*@
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+
+
+        @if (Session["SalaryMessage"] != null)
+        {
+            <h5 class="text-info bold"> @Session["SalaryMessage"] </h5>
+        }
+        @if (Session["ErrMessage"] != null)
+        {
+            <h5 class="text-danger bold"> @Session["ErrMessage"] </h5>
+        }
+
+        @using (Html.BeginForm("EmployeeSalaryConfirm", "CompanyEmployee", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+            <div class="card">
+                <div class="body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(model => model.EmployeeID)
+                        <p class="text-danger" style="font-style:italic; text-decoration:underline">(*) Please Double Check the Information</p>
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.EmployeeName, "Employee Name", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.EmployeeName, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.EmployeeName, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.CNIC, "Computerized National Identity Card (CNIC)", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.CNIC, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.CNIC, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Designation, "Designation", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Designation, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.Designation, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TransferAmount, "Monthly Salary Amount", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
+                                <p class="text-danger">*</p>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalaryMonth, "Salary of the Month", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SalaryMonth, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.SalaryMonth, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.SalaryYear, "Salary Year", htmlAttributes: new { @class = "control-label col-md-12" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.SalaryYear, new { htmlAttributes = new { @class = "form-control", @readonly = "readonly" } })
+                                @Html.ValidationMessageFor(model => model.SalaryYear, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary">
+                                    Process Salary
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 6000);
+</script>

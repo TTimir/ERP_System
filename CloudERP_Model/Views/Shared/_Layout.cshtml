@@ -1,0 +1,810 @@
+﻿<!doctype html>
+<html lang="en">
+
+<head>
+    <title>:: @Session["CName"] :: @ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Run & Co Business Managment">
+    <meta name="author" content="Timir Bhingradiya, design by: Timir Bhingradiya">
+    <link rel="icon" href="~/Content/img/favicon/fav-logo.png" type="image/x-icon">
+    <!-- jQuery Library -->
+    <script src="~/Content/assets/vendor/jquery-3.6.0.min.js"></script> <!-- jQuery is essential and should be loaded first -->
+    <!-- Vendor CSS Files -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css"> <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/font-awesome/css/font-awesome.min.css"> <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/toastr/toastr.min.css"> <!-- Toastr Notifications CSS -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/charts-c3/plugin.css"> <!-- C3 Charts Plugin CSS -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/dropify/css/dropify.min.css"> <!-- Dropify File Upload CSS -->
+    <!-- Main Project CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css"> <!-- Custom and Main Styles for the Project -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/nestable/jquery-nestable.css">
+
+
+    <link rel="stylesheet" href="~/Content/assets/css/style-1.css">
+
+</head>
+
+<body data-theme="light" class="font-nunito">
+    <div id="wrapper" class="theme-cyan">
+
+        <!-- Page Loader -->
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="m-t-30"><img src="~/Content/img/sub-logo-light.png" width="80" height="38" alt="Run&Co"></div>
+                <p>Please wait...</p>
+            </div>
+        </div>
+
+        <!-- Top navbar div start -->
+        <nav class="navbar navbar-fixed-top">
+            <div class="container-fluid">
+                <div class="navbar-brand">
+                    <button type="button" class="btn-toggle-offcanvas"><i class="fa fa-bars"></i></button>
+                    <button type="button" class="btn-toggle-fullwidth"><i class="fa fa-bars"></i></button>
+                    @*@{
+                            string logo = string.Empty;
+                            if (string.IsNullOrEmpty(Convert.ToString(Session["Logo"])))
+                            {
+                                logo = "~/Content/Template/assets/logo/Logo.png";
+                            }
+                            else
+                            {
+                                logo = Convert.ToString(Session["Logo"]);
+                            }
+                        }
+                        <a href="index.html">
+                            <img class="img-fluid" src="@Url.Content(logo)" alt="Theme-Logo" />
+                        </a>*@
+                    &nbsp;
+                    <a href="@Url.Action("Index", "Home")">@Session["CName"]</a>
+                </div>
+
+                <div class="navbar-right">
+                    @*<form id="navbar-search" class="navbar-form search-form">
+                        <input value="" class="form-control" placeholder="Search here..." type="text">
+                        <button type="button" class="btn btn-default"><i class="icon-magnifier"></i></button>
+                    </form>*@
+
+                    <div id="navbar-menu">
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="#!" onclick="javascript:toggleFullScreen()" class="icon-menu" title="full screen">
+                                    <i class="fa fa-expand"></i>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="@Url.Action("LS", "Home")" class="icon-menu" title="lock screen">
+                                    <i class="fa fa-lock"></i>
+                                </a>
+                            </li>
+                            @*<li class="dropdown">
+                                <a href="javascript:void(0);" class="dropdown-toggle icon-menu" data-toggle="dropdown">
+                                    <i class="fa fa-bell"></i>
+                                    <span class="notification-dot"></span>
+                                </a>
+                                <ul class="dropdown-menu notifications">
+                                    <li class="header"><strong>You have 4 new Notifications</strong></li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <i class="icon-info text-warning"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text">Campaign <strong>Holiday Sale</strong> is nearly reach budget limit.</p>
+                                                    <span class="timestamp">10:00 AM Today</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <i class="icon-like text-success"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text">Your New Campaign <strong>Holiday Sale</strong> is approved.</p>
+                                                    <span class="timestamp">11:30 AM Today</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <i class="icon-pie-chart text-info"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text">Website visits from Twitter is 27% higher than last week.</p>
+                                                    <span class="timestamp">04:00 PM Today</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0);">
+                                            <div class="media">
+                                                <div class="media-left">
+                                                    <i class="icon-info text-danger"></i>
+                                                </div>
+                                                <div class="media-body">
+                                                    <p class="text">Error on website analytics configurations</p>
+                                                    <span class="timestamp">Yesterday</span>
+                                                </div>
+                                            </div>
+                                        </a>
+                                    </li>
+                                    <li class="footer"><a href="javascript:void(0);" class="more">See all notifications</a></li>
+                                </ul>
+                            </li>*@
+                            <li>
+                                <a href="@Url.Action("Logout", "Home")" class="icon-menu" title="logout"><i class="fa fa-power-off"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+        <!-- main left menu -->
+        <div id="left-sidebar" class="sidebar">
+            <button type="button" class="btn-toggle-offcanvas"><i class="fa fa-arrow-left"></i></button>
+            <div class="sidebar-scroll">
+                <div class="user-account">
+                    @{
+                        string userImg1 = string.Empty;
+                        if (string.IsNullOrEmpty(Convert.ToString(Session["EmpPhoto"])))
+                        {
+                            userImg1 = "~/Content/Template/assets/images/default-img.png";
+                        }
+                        else
+                        {
+                            userImg1 = Convert.ToString(Session["EmpPhoto"]);
+                        }
+                    }
+                    <img src="@Url.Content(userImg1)" class="rounded-circle user-photo" alt="User Profile Picture">
+                    <div class="dropdown">
+                        <span>Welcome @Session["Designation"],</span>
+                        <a href="javascript:void(0);" class="dropdown-toggle user-name" data-toggle="dropdown"><strong>@Session["EmpName"]</strong></a>
+                        <ul class="dropdown-menu dropdown-menu-right account">
+                            <li><a href="page-profile2.html"><i class="icon-user"></i>My Profile</a></li>
+                            <li><a href="app-inbox.html"><i class="icon-envelope-open"></i>Messages</a></li>
+                            <li><a href="javascript:void(0);"><i class="icon-settings"></i>Settings</a></li>
+                            <li class="divider"></li>
+                            <li><a href="@Url.Action("LS", "Home")"><i class="icon-lock"></i>Lock Screen</a></li>
+                            <li><a href="@Url.Action("Logout", "Home")"><i class="icon-power"></i>Logout</a></li>
+                        </ul>
+                    </div>
+                    <hr>
+                    @*<ul class="row list-unstyled">
+                        <li class="col-4">
+                            <small>Sales</small>
+                            <h6>561</h6>
+                        </li>
+                        <li class="col-4">
+                            <small>Purchase</small>
+                            <h6>920</h6>
+                        </li>
+                        <li class="col-4">
+                            <small>Revenue</small>
+                            <h6>$23B</h6>
+                        </li>
+                    </ul>*@
+                </div>
+                <!-- Nav tabs -->
+                <ul class="nav nav-tabs">
+                    <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#menu">Menu</a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#Chat"><i class="icon-book-open"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#setting"><i class="icon-settings"></i></a></li>
+                    <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#question"><i class="icon-question"></i></a></li>
+                </ul>
+
+                <!-- Tab panes -->
+                <div class="tab-content padding-0">
+                    <div class="tab-pane active" id="menu">
+                        <form>
+                            <div class="input-group m-b-20">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-magnifier"></i></span>
+                                </div>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search...">
+                            </div>
+                        </form>
+                        <nav id="left-sidebar-nav" class="sidebar-nav">
+                            <ul id="main-menu" class="metismenu li_animation_delay">
+                                @{
+                                    if (Session["UserTypeID"] != null)
+                                    {
+                                        var userType = Convert.ToInt32(Convert.ToString(Session["UserTypeID"]));
+
+                                        if (Session["BranchTypeID"] != null)
+                                        {
+
+                                            @*<li class="search-item">
+                                                <a href="#Dashboard" class="has-arrow"><i class="fa fa-dashboard"></i><span>Dashboard</span></a>
+                                                <ul>
+                                                    <li><a href="@Url.Action("Index", "Dashboard")">Dashboard</a></li>
+                                                </ul>
+                                            </li>*@
+                                            if (userType == 1) // Admin(User Type)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#App" class="has-arrow"><i class="fa fa-gear"></i><span>User Operations</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblUserTypes")">User Types</a></li>
+                                                        <li><a href="@Url.Action("Index", "tblUsers")">Users</a></li>
+                                                        @*<li>
+                                                                <a href="javascript:void(0);"><span>File Manager</span></a>
+                                                                <ul>
+                                                                    <li><a href="file-dashboard.html">Dashboard</a></li>
+                                                                    <li><a href="file-documents.html">Documents</a></li>
+                                                                    <li><a href="file-media.html">Media</a></li>
+                                                                    <li><a href="file-images.html">Images</a></li>
+                                                                </ul>
+                                                            </li>*@
+                                                    </ul>
+                                                </li>
+                                                <li class="search-item">
+                                                    <a href="#Widgets" class="has-arrow"><i class="fa fa-briefcase"></i><span>Company Operations</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblCompanies")">Companie's</a></li>
+                                                        <li><a href="@Url.Action("RegistrationForm", "CompanyRegistration")">Company Registration</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-inbox"></i><span>Account Operations</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblAccountHeads")">Account Heads</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 2) // User(User Type)
+                                            {
+
+                                                <li class="search-item">
+                                                    <a href="#Widgets" class="has-arrow"><i class="fa fa-briefcase"></i><span>Sub Branch's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblBranches")">Branch's</a></li>
+                                                        <li><a href="@Url.Action("SubBranchUser", "tblUsers")">Users</a></li>
+                                                    </ul>
+                                                </li>
+
+                                                var BranchTypeID = Convert.ToInt32(Convert.ToString(Session["BranchTypeID"]));
+                                                if (BranchTypeID == 1) // Head Office(Branch Type)
+                                                {
+                                                    <li class="search-item">
+                                                        <a href="#Widgets" class="has-arrow"><i class="fa fa-briefcase"></i><span>Company Operations</span></a>
+                                                        <ul>
+                                                            <li><a href="@Url.Action("Create", "tblBranches")">New Branch</a></li>
+                                                            <li><a href="@Url.Action("Employee", "CompanyEmployee")">Employee Registration</a></li>
+                                                            @*<li><a href="@Url.Action ("Employee", "BranchEmployee")">All Employees</a></li>*@
+                                                            <li><a href="@Url.Action("EmployeeSalary", "CompanyEmployee")">Employee Salary (Payroll)</a></li>
+                                                            <li><a href="@Url.Action("SalaryHistory", "CompanyEmployee")">Paid Salary History</a></li>
+                                                        </ul>
+                                                    </li>
+                                                }
+
+                                                if (BranchTypeID > 1)
+                                                {
+                                                    <li class="search-item">
+                                                        <a href="#uiElements" class="has-arrow"><i class="fa fa-building"></i><span>Branch's</span></a>
+                                                        <ul>
+                                                            <li><a href="@Url.Action("Employee", "BranchEmployee")">Employee Registration</a></li>
+                                                            @*<li><a href="@Url.Action("Employee", "BranchEmployee")">All Employees</a></li>*@
+                                                            <li><a href="@Url.Action("EmployeeSalary", "CompanyEmployee")">Employee Salary (Payroll)</a></li>
+                                                            <li><a href="@Url.Action("SalaryHistory", "CompanyEmployee")">Paid Salary History</a></li>
+                                                        </ul>
+                                                    </li>
+                                                }
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-list-ul"></i><span>Stock's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblCategories")">Stock Categories</a></li>
+                                                        <li><a href="@Url.Action("Index", "tblStocks")">Stock Details</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-inbox"></i><span>Account's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblAccountControls")">Account Controls</a></li>
+                                                        <li><a href="@Url.Action("Index", "tblAccountSubControls")">Account Sub Controls</a></li>
+                                                        <li><a href="@Url.Action("Index", "tblAccountSettings")">Account Flow</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 1)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-calendar"></i><span>Financial Year Op</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "tblFinancialYears")">Financial Years</a></li>
+                                                        <li><a href="@Url.Action("Create", "tblFinancialYears")">New Financial Year</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 2)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-calendar"></i><span>Financial Year</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Index", "UserFinancialYears")">All Financial Years</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 2)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-users"></i><span>Customer's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Create", "tblCustomers")">New Customer</a></li>
+                                                        <li><a href="@Url.Action("Index", "tblCustomers")">Branch Customer</a></li>
+                                                        <li><a href="@Url.Action("SubBranchCustomer", "tblCustomers")">Sub Branch Customer</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-shopping-cart"></i><span>Sale's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("NewSale", "SaleCart")">New Sale</a></li>
+                                                        <li><a href="@Url.Action("RemainingPaymentList", "SalePayment")">Sale's Pending Payment</a></li>
+                                                        <li><a href="@Url.Action("CustomeSaleHistory", "SalePayment", new { FromDate = DateTime.Now.ToString("yyyy-MM-dd"), ToDate = DateTime.Now.ToString("yyyy-MM-dd") })">Filter Sale List</a></li>
+                                                        <li><a href="@Url.Action("FindSale", "SaleReturn")">Sale Return</a></li>
+                                                        <li><a href="@Url.Action("AllReturnSalePendingPayment", "SalePaymentReturn")">Return Payment Pending</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 1)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-users"></i><span>Customer's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("AllCustomer", "tblCustomers")">All Customers</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 2)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-truck"></i><span>Supplier's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("Create", "tblSuppliers")">New Supplier</a></li>
+                                                        <li><a href="@Url.Action("Index", "tblSuppliers")">Branch Supplier</a></li>
+                                                        <li><a href="@Url.Action("SubBranchSupplier", "tblSuppliers")">Sub Branch Supplier</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-shopping-cart"></i><span>Purchase's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("NewPurchase", "PurchaseCart")">New Purchase</a></li>
+                                                        <li><a href="@Url.Action("RemainingPaymentList", "PurchasePayment")">Purchase's Pending Payment</a></li>
+                                                        <li><a href="@Url.Action("CustomePurchaseHistory", "PurchasePayment", new { FromDate = DateTime.Now.ToString("yyyy-MM-dd"), ToDate = DateTime.Now.ToString("yyyy-MM-dd") })">Filter Purchase List</a></li>
+                                                        <li><a href="@Url.Action("FindPurchase", "PurchasesReturn")">Purchase Return</a></li>
+                                                        <li><a href="@Url.Action("AllReturnPurchasePendingPayment", "PurchasePaymentReturn")">Return Payment Pending</a></li>
+                                                    </ul>
+                                                </li>
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-shopping-cart"></i><span>Transactions</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("GeneralTransaction", "GeneralTransactions", new { transaction = new CloudERP_Model.Models.GeneralTransactionMV() {CreditAccountControlID =0, DebitAccountControlID =0, TransferAmount = 0 } })">New General Transaction</a></li>
+                                                        <li><a href="@Url.Action("Journal", "GeneralTransactions")">Journals</a></li>
+                                                        <li><a href="@Url.Action("GetLadgers", "Ladger")">Account Ladger</a></li>
+                                                        <li><a href="@Url.Action("GetTrialBalance", "TrialBalance")">Trial Balance</a></li>
+                                                        <li><a href="@Url.Action("GetIncomeStatment", "IncomeStatment")">Income Statment</a></li>
+                                                        <li><a href="@Url.Action("BalanceSheet", "BalanceSheets")">Balance Sheet</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                            if (userType == 1)
+                                            {
+                                                <li class="search-item">
+                                                    <a href="#charts" class="has-arrow"><i class="fa fa-truck"></i><span>Supplier's</span></a>
+                                                    <ul>
+                                                        <li><a href="@Url.Action("AllSupplier", "tblSuppliers")">All Suppliers</a></li>
+                                                    </ul>
+                                                </li>
+                                            }
+
+                                        }
+                                    }
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                    @*<div class="tab-pane" id="Chat">
+                        <form>
+                            <div class="input-group m-b-20">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-magnifier"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                        </form>
+
+
+                        <ul class="right_chat list-unstyled li_animation_delay">
+                            <li>
+                                <a href="javascript:void(0);" class="media">
+                                    <img class="media-object" src="~/Content/assets/images/xs/avatar1.jpg" alt="">
+                                    <div class="media-body">
+                                        <span class="name d-flex justify-content-between">Chris Fox <i class="fa fa-heart-o font-12"></i></span>
+                                        <span class="message">chrisfox@gmail.com</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="media">
+                                    <img class="media-object" src="~/Content/assets/images/xs/avatar2.jpg" alt="">
+                                    <div class="media-body">
+                                        <span class="name d-flex justify-content-between">Joge Lucky <i class="fa fa-heart-o font-12"></i></span>
+                                        <span class="message">Jogelucky@gmail.com</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="media">
+                                    <img class="media-object" src="~/Content/assets/images/xs/avatar3.jpg" alt="">
+                                    <div class="media-body">
+                                        <span class="name d-flex justify-content-between">Isabella <i class="fa fa-heart-o font-12"></i></span>
+                                        <span class="message">Isabella@gmail.com</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="media">
+                                    <img class="media-object" src="~/Content/assets/images/xs/avatar4.jpg" alt="">
+                                    <div class="media-body">
+                                        <span class="name d-flex justify-content-between">Folisise Chosielie <i class="fa fa-heart font-12"></i></span>
+                                        <span class="message">FolisiseChosielie@gmail.com</span>
+                                    </div>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="javascript:void(0);" class="media">
+                                    <img class="media-object" src="~/Content/assets/images/xs/avatar5.jpg" alt="">
+                                    <div class="media-body">
+                                        <span class="name d-flex justify-content-between">Alexander <i class="fa fa-heart-o font-12"></i></span>
+                                        <span class="message">Alexander@gmail.com</span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>*@
+                    <div class="tab-pane" id="setting">
+                        <h6>Choose Theme</h6>
+                        <ul class="choose-skin list-unstyled">
+                            <li data-theme="purple"><div class="purple"></div></li>
+                            <li data-theme="blue"><div class="blue"></div></li>
+                            <li data-theme="cyan" class="active"><div class="cyan"></div></li>
+                            <li data-theme="green"><div class="green"></div></li>
+                            <li data-theme="orange"><div class="orange"></div></li>
+                            <li data-theme="blush"><div class="blush"></div></li>
+                            <li data-theme="red"><div class="red"></div></li>
+                        </ul>
+
+                        <ul class="list-unstyled font_setting mt-3">
+                            <li>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="font" value="font-nunito" checked="">
+                                    <span class="custom-control-label">Nunito Google Font</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="font" value="font-ubuntu">
+                                    <span class="custom-control-label">Ubuntu Font</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="font" value="font-raleway">
+                                    <span class="custom-control-label">Raleway Google Font</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="custom-control custom-radio custom-control-inline">
+                                    <input type="radio" class="custom-control-input" name="font" value="font-IBMplex">
+                                    <span class="custom-control-label">IBM Plex Google Font</span>
+                                </label>
+                            </li>
+                        </ul>
+
+                        <ul class="list-unstyled mt-3">
+                            <li class="d-flex align-items-center mb-2">
+                                <label class="toggle-switch theme-switch">
+                                    <input type="checkbox">
+                                    <span class="toggle-switch-slider"></span>
+                                </label>
+                                <span class="ml-3">Enable Dark Mode!</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-2">
+                                <label class="toggle-switch theme-rtl">
+                                    <input type="checkbox">
+                                    <span class="toggle-switch-slider"></span>
+                                </label>
+                                <span class="ml-3">Enable RTL Mode!</span>
+                            </li>
+                            <li class="d-flex align-items-center mb-2">
+                                <label class="toggle-switch theme-high-contrast">
+                                    <input type="checkbox">
+                                    <span class="toggle-switch-slider"></span>
+                                </label>
+                                <span class="ml-3">Enable High Contrast Mode!</span>
+                            </li>
+                        </ul>
+
+                        @*<hr>
+                        <h6>General Settings</h6>
+                        <ul class="setting-list list-unstyled">
+                            <li>
+                                <label class="fancy-checkbox">
+                                    <input type="checkbox" name="checkbox" checked="">
+                                    <span>Allowed Notifications</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="fancy-checkbox">
+                                    <input type="checkbox" name="checkbox">
+                                    <span>Offline</span>
+                                </label>
+                            </li>
+                            <li>
+                                <label class="fancy-checkbox">
+                                    <input type="checkbox" name="checkbox">
+                                    <span>Location Permission</span>
+                                </label>
+                            </li>
+                        </ul>*@
+
+                    </div>
+                    <div class="tab-pane" id="question">
+                        <form>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <span class="input-group-text"><i class="icon-magnifier"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Search...">
+                            </div>
+                        </form>
+                        <ul class="list-unstyled question">
+                            <li class="menu-heading">FINANCIAL MANAGMENT</li>
+                            <li><a href="javascript:void(0);">General Ledger</a></li>
+                            <li><a href="javascript:void(0);">Accounts Payable/Receivable</a></li>
+                            <li><a href="javascript:void(0);">Asset Managment</a></li>
+                            <li class="menu-heading">OPERATIONS MANAGMENT</li>
+                            <li><a href="javascript:void(0);">Inventory Control</a></li>
+                            <li><a href="javascript:void(0);">Supply Chain Management</a></li>
+                            <li class="menu-heading">HUMAN RESOURCE MANAGMENT</li>
+                            <li><a href="javascript:void(0);">Employee Data Management</a></li>
+                            <li><a href="javascript:void(0);">Payroll Processing</a></li>
+                            @*<li class="menu-button mt-3">
+                                <a href="../docs/index.html" class="btn btn-primary btn-block">Documentation</a>
+                            </li>*@
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- rightbar icon div -->
+        <div class="right_icon_bar">
+            <ul>
+                <li><a href="@Url.Action("Employee", "CompanyEmployee")" title="Employee"><i class="fa fa-user"></i></a></li>
+                <li><a href="@Url.Action("Employee", "CompanyEmployee")" title="Sell"><i class="fa fa-percent"></i></a></li>
+                <li><a href="@Url.Action("Employee", "CompanyEmployee")" title="Purchase"><i class="fa fa-shopping-cart"></i></a></li>
+                <li><a href="@Url.Action("Employee", "CompanyEmployee")" title="Customer"><i class="fa fa-users"></i></a></li>
+                <li><a href="@Url.Action("Employee", "CompanyEmployee")" title="Supplier"><i class="fa fa-truck"></i></a></li>
+                <li><a href="javascript:void(0);" class="right_icon_btn"><i class="fa fa-angle-right"></i></a></li>
+            </ul>
+        </div>
+
+        <!-- mani page content body part -->
+        <div id="main-content">
+            <div class="container-fluid">
+                <div class="block-header">
+                    <div class="row">
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <h2>@ViewBag.Title</h2>
+                            <ul class="breadcrumb">
+                                <li class="breadcrumb-item"><a href="@Url.Action("Index","Home")"><i class="fa fa-dashboard"></i></a></li>
+                                @if (ViewBag.ControllerName != null)
+                                {
+                                    <li class="breadcrumb-item"><a href="@Url.Action(ViewBag.ActionaName, ViewBag.ControllerName as string)">@ViewBag.MainTitle</a></li>
+                                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                                }
+                                else
+                                {
+                                    <li class="breadcrumb-item active">@ViewBag.Title</li>
+                                }
+
+                            </ul>
+                        </div>
+                        <div class="col-lg-6 col-md-6 col-sm-6">
+                            <div class="d-flex flex-column align-items-end">
+                                <!-- Display date -->
+                                <div class="d-flex align-items-center mb-1">
+                                    <i class="fa fa-calendar mr-2"></i>
+                                    <span style="font-size: 1.1rem;">
+                                        @DateTime.Now.ToString("MMMM d, yyyy")
+                                    </span>
+                                </div>
+                                <!-- Display time -->
+                                <div class="d-flex align-items-center">
+                                    <span class="text-muted" style="font-size: 1rem;">
+                                        @DateTime.Now.ToString("hh:mm tt") <!-- 12-hour format with AM/PM -->
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row clearfix">
+
+                    <div class="col-lg-12 col-md-12">
+                        <div class="card planned_task">
+                            <div class="header">
+                                <h2>@ViewBag.Title</h2>
+                                <ul class="header-dropdown">
+                                    <li class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"></a>
+                                        <ul class="dropdown-menu dropdown-menu-right">
+                                            <li><a href="javascript:void(0);">Action</a></li>
+                                            <li><a href="javascript:void(0);">Another Action</a></li>
+                                            <li><a href="javascript:void(0);">Something else</a></li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="body">
+                            @RenderBody()
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- jQuery should be loaded first as it's a dependency for many other scripts -->
+    <script src="~/Content/assets/vendor/jquery-3.6.0.min.js"></script>
+
+    <!-- Core Libraries Bundle -->
+    <script src="~/Content/assets/bundles/libscripts.bundle.js"></script>
+    <!-- Bootstrap, jQuery Plugins -->
+    <script src="~/Content/assets/bundles/vendorscripts.bundle.js"></script>
+    <!-- Vendor Plugins -->
+    <!-- Plugin Scripts for Specific Features -->
+    <script src="~/Content/assets/vendor/toastr/toastr.js"></script>
+    <!-- Toastr Notifications -->
+    <script src="~/Content/assets/bundles/c3.bundle.js"></script>
+    <!-- C3 Charts and D3.js -->
+    <script src="~/Content/assets/vendor/jquery-validation/jquery.validate.js"></script>
+    <!-- Form Validation Plugin -->
+    <script src="~/Content/assets/vendor/jquery-steps/jquery.steps.js"></script>
+    <!-- Multi-step Form Plugin -->
+    <!-- Page Specific Scripts -->
+    <script src="~/Content/assets/js/pages/tables/jquery-datatable.js"></script>
+    <!-- DataTables Initialization -->
+    <script src="~/Content/assets/vendor/dropify/js/dropify.min.js"></script>
+    <!-- Dropify Plugin -->
+    <script src="~/Content/assets/js/pages/forms/dropify.js"></script>
+    <!-- Dropify Custom Initialization -->
+    <script src="~/Content/assets/js/pages/forms/form-wizard.js"></script>
+    <!-- Form Wizard Custom Script -->
+    <script src="~/Content/assets/js/pages/forms/advanced-form-elements.js"></script>
+
+    <!-- DataTables Scripts for Advanced Table Features -->
+    <script src="~/Content/assets/bundles/datatablescripts.bundle.js"></script>
+    <!-- DataTables Core Scripts -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/dataTables.buttons.min.js"></script>
+    <!-- DataTables Buttons -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/buttons.bootstrap4.min.js"></script>
+    <!-- DataTables Bootstrap Integration -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/buttons.colVis.min.js"></script>
+    <!-- Column Visibility Control -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/buttons.html5.min.js"></script>
+    <!-- Export to HTML5 -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/buttons.print.min.js"></script>
+    <!-- Print Button -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/pdfmake.min.js"></script>
+    <!-- PDF Export -->
+    <script src="~/Content/assets/vendor/jquery-datatable/buttons/vfs_fonts.js"></script>
+    <!-- Font Support for PDF Export -->
+    <!-- Main Scripts -->
+    <script src="~/Content/assets/bundles/mainscripts.bundle.js"></script>
+    <script src="~/Content/assets/js/pages/ui/sortable-nestable.js"></script>
+    <!-- Application Main Script Bundle -->
+    <script src="~/Content/assets/js/index.js"></script>
+    <script src="~/Content/assets/vendor/nestable/jquery.nestable.js"></script> <!-- Jquery Nestable --><!-- Custom Scripts for the Dashboard -->
+    <!-- Custom Project-Specific Scripts -->
+    <script src="~/Content/Template/assets/js/script.min.js"></script>
+    <!-- Custom JS for the Template -->
+
+    <script src="~/Content/assets/vendor/bootstrap-colorpicker/js/bootstrap-colorpicker.js"></script>
+    <!-- Bootstrap Colorpicker Js -->
+    <script src="~/Content/assets/vendor/jquery-inputmask/jquery.inputmask.bundle.js"></script>
+    <!-- Input Mask Plugin Js -->
+    <script src="~/Content/assets/vendor/jquery.maskedinput/jquery.maskedinput.min.js"></script>
+    <script src="~/Content/assets/vendor/bootstrap-multiselect/bootstrap-multiselect.js"></script>
+
+
+    <script src="~/Content/assets/js/jspdf.min-1.js"></script>
+    <script src="~/Content/assets/js/html2canvas.min-1.js"></script>
+    <script src="~/Content/assets/js/main-1.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $("#searchInput").on("keyup", function () {
+                var value = $(this).val().toLowerCase();
+                $(".search-item").filter(function () {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+                });
+            });
+        });
+    </script>
+
+
+    <!-- Large Size -->
+    @*<div class="modal fade" id="largeModal" tabindex="-1" role="dialog">
+            <div class="modal-dialog modal-lg" role="document">
+                @using (Html.BeginForm("ReturnPaymentPaid", "PurchasePayment", FormMethod.Post))
+                {
+                    @Html.AntiForgeryToken()
+                    <div class="modal-content">
+
+                        <div class="modal-header">
+                            <h4 class="title" id="largeModalLabel">Enter Purchase Return Payment</h4>
+                        </div>
+                        <div class="modal-body">
+
+                            <input type="text" value="@ViewBag.InvoiceID" id="id" name="id" style="display:none;" />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <label>Previous Remaining Amount</label>
+                                    <input type="text" id="previousRemainingAmount" name="previousRemainingAmount" value="0" readonly="readonly" class="form-control" required />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Payment Amount</label>
+                                    <input min="0" type="number" id="paymentAmount" name="paymentAmount" class="form-control" required />
+                                </div>
+
+                                <div class="col-md-4">
+                                    <label>Current Remaining Amount</label>
+                                    <input type="text" id="currentRemainingAmount" name="currentRemainingAmount" readonly="readonly" class="form-control" required />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+
+                                </div>
+                            </div>
+                            <br />
+                            <hr />
+                            <input type="submit" value="Save Payment" class="btn btn-success" style="float:right;" />
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-primary">SAVE PAYMENT</button>
+                            <button type="button" class="btn btn-danger" data-dismiss="modal">CLOSE</button>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>*@
+
+</body>
+
+</html>

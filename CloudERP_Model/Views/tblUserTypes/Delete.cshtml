@@ -1,0 +1,39 @@
+﻿@model DatabaseAccess.tblUserType
+
+@{
+    string controllerName = "tblUserTypes";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "Index";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "All User Types";
+    ViewBag.Title = "Delete User Type";
+}
+
+<h3>Are you sure you want to delete this?</h3>
+<hr />
+<div>
+    <dl class="row">
+        <dt class="col-sm-3 font-weight-bold">
+            @Html.DisplayNameFor(model => model.UserType)
+        </dt>
+        <dd class="col-sm-9">
+            @Html.DisplayFor(model => model.UserType)
+        </dd>
+    </dl>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <button type="submit" class="btn btn-danger">
+                    Delete
+                </button>
+                <a href="@Url.Action("Index", "tblUserTypes")" class="btn btn-default">
+                    <i class="feather icon-arrow-left mr-2"></i> Back to List
+                </a>
+            </div>
+        </div>
+    }
+</div>

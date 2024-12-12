@@ -1,0 +1,132 @@
+﻿@model IEnumerable<DatabaseAccess.Model.AccountLadgerModel>
+
+@{
+    ViewBag.Title = "Accounts Ladger";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="tab-pane" id="Pay">
+                    @using (Html.BeginForm("GetLadgers", "Ladger", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Select Financial Year</label>
+                                <select class="form-control" id="id" name="id" required></select>
+                            </div>
+                            <div class="col-md-1 d-flex align-items-end">
+                                <input type="submit" value="Get Ladger" class="btn btn-success ml-auto" />
+                            </div>
+                        </div>
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th style="display:none">#</th>
+                                <th>Account</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                if (item.Date == "Date")
+                                {
+                                    <tr style="background-color: aliceblue">
+                                        <!-- Serial Number Column -->
+                                        <td style="display:none">@(i + 1)</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Account)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Debit)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Credit)
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <td style="display:none">@(i + 1)</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Account)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Date)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Description)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Debit)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Credit)
+                                        </td>
+                                    </tr>
+                                }
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th style="display:none">Sr.No</th>
+                                <th>Account</th>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/TrialBalance/GetFinancialYear",
+            data: {},
+            dataType: "Json",
+            success: function (response) {
+                $('#id').append("<option value='0'>Select Financial Year</option>");
+                for (var i = 0; i < response.data.length; i++) {
+                    $('#id').append("<option value=" + response.data[i].FinancialYearID + ">" + response.data[i].FinancialYear + " </option>");
+                }
+            }
+        });
+    });
+</script>

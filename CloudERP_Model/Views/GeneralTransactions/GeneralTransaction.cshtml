@@ -1,0 +1,82 @@
+﻿@model CloudERP_Model.Models.GeneralTransactionMV
+
+@{
+    string controllerName = "GeneralTransactions";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "New General Transaction";
+    ViewBag.Title = "Add General Transaction";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        @using (Html.BeginForm("SaveGeneralTransaction", "GeneralTransactions", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="card">
+                <div class="body">
+                    <div class="form-horizontal">
+                        @if (Session["GNMessage"] != null)
+                        {
+                            <div class="alert alert-info" role="alert">
+                                <strong style="font-weight:600"></strong> @Session["GNMessage"]
+                            </div>
+                        }
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Select Account(Credit): </label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("CreditAccountControlID", null, "--Select Credit Account--", htmlAttributes: new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.CreditAccountControlID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="control-label col-md-3">Select Account(Debit): </label>
+                            <div class="col-md-10">
+                                @Html.DropDownList("DebitAccountControlID", null, "--Select Debit Account--", htmlAttributes: new { @class = "form-control", required = "required" })
+                                @Html.ValidationMessageFor(model => model.DebitAccountControlID, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.TransferAmount, "Enter Amount", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.TransferAmount, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.TransferAmount, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.Reason, "Enter Reason", htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-10">
+                                @Html.EditorFor(model => model.Reason, new { htmlAttributes = new { @class = "form-control", required = "required" } })
+                                @Html.ValidationMessageFor(model => model.Reason, "", new { @class = "text-danger" })
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary">
+                                    Save Transaction
+                                </button>
+                                @*<a href="@Url.Action("AllTransaction", "GeneralTransactions")" class="btn btn-default">
+                                    <i class="icon-arrow-left mr-2"></i> Back
+                                </a>*@
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 6000);
+</script>

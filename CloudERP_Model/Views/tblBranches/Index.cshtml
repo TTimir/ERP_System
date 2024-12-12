@@ -1,0 +1,108 @@
+﻿@model IEnumerable<DatabaseAccess.tblBranch>
+
+@{
+    string controllerName = "tblBranches";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Branches";
+    ViewBag.Title = "Company Branchs List";
+}
+
+
+<a href="@Url.Action("Create")" class="btn btn-primary m-b-20">
+    <i class="icon-plus mr-1"></i> Add Branch
+</a>
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Branch Level
+                                </th>
+                                <th>
+                                    Branch Name
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Branch Address
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tblBranchType.BranchType)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BranchName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BranchContact)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BranchAddress)
+                                    </td>
+                                    <td>
+                                        <div class="d-flex flex-column">
+                                            <a href="@Url.Action("Edit", new { id = item.BranchID })" class="btn btn-sm btn-primary mb-2" data-toggle="tooltip" title="Update">
+                                                <i class="icon-pencil"></i> Update
+                                            </a>
+                                            <a href="@Url.Action("SubCustomeSaleHistory", "SalePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID })" class="btn btn-sm btn-info mb-2" data-toggle="tooltip" title="Sales Details">
+                                                <i class="icon-info"></i> Sales
+                                            </a>
+                                            <a href="@Url.Action("SubCustomePurchaseHistory", "PurchasePayment", new { FromDate = DateTime.Now, ToDate = DateTime.Now, id = item.BranchID })" class="btn btn-sm btn-info mb-2" data-toggle="tooltip" title="Purchases Details">
+                                                <i class="icon-info"></i> Purchases
+                                            </a>
+                                            <a href="@Url.Action("SubJournal", "GeneralTransactions", new { id = item.BranchID })" class="btn btn-sm btn-info mb-2" data-toggle="tooltip" title="Journal Details">
+                                                <i class="icon-info"></i> Journal
+                                            </a>
+                                            <a href="@Url.Action("GetSubLadgers", "Ladger", new { bchid = item.BranchID.ToString() })" class="btn btn-sm btn-info mb-2" data-toggle="tooltip" title="Account Ledger Details">
+                                                <i class="icon-info"></i> Account Ledger
+                                            </a>
+                                            <a href="@Url.Action("SubBalanceSheet", "BalanceSheets", new { bchid = item.BranchID.ToString() })" class="btn btn-sm btn-info mb-2" data-toggle="tooltip" title="Balance Sheet Details">
+                                                <i class="icon-info"></i> Balance Sheet
+                                            </a>
+                                            <a href="@Url.Action("GetSubIncomeStatment", "IncomeStatment", new { bchid = item.BranchID.ToString() })" class="btn btn-sm btn-info mb-2" data-toggle="tooltip" title="Income Statment Details">
+                                                <i class="icon-info"></i> Income Statment
+                                            </a>
+                                        </div>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Branch Level
+                                </th>
+                                <th>
+                                    Branch Name
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Branch Address
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

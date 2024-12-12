@@ -1,0 +1,213 @@
+﻿@model DatabaseAccess.tblSupplierInvoice
+
+@{
+    string controllerName = "PurchasesReturn";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Purchase's";
+    ViewBag.Title = "Purchase Return(Search Purchase By Invoice No)";
+    //decimal count = 0;
+    int serialNumber = 1; // Initialize serial number
+}
+
+<style>
+    .editor-style {
+        padding: 10px;
+        background-color: #ECECEC;
+        border: 1px solid #1111;
+        width: 100%;
+    }
+</style>
+
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        @using (Html.BeginForm("FindPurchase", "PurchasesReturn", FormMethod.Post, null))
+        {
+            @Html.AntiForgeryToken()
+
+            <div class="card">
+                <div class="body">
+                    <div class="form-horizontal">
+                        <div class="form-group">
+                            <label class="control-label col-md-2">Purchase Invoice No</label>
+                            <div class="col-md-10">
+                                <input type="text" id="invoiceid" name="invoiceid" placeholder="Enter Purchase Inovice No" class="form-control" required />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-md-offset-2 col-md-10">
+                                <button type="submit" class="btn btn-primary">
+                                    Get Invoice
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                @if (Model != null)
+                {
+                    try
+                    {
+                        double total = 0;
+                        if (Model.InvoiceNo != null)
+                        {
+                            using (Html.BeginForm("ReturnPurchaseConfirm", "PurchasesReturn", FormMethod.Post, null))
+                            {
+                                @Html.AntiForgeryToken()
+
+                                <div class="invoice1">
+                                    <div class="body">
+                                        <div class="invoice-top clearfix">
+                                            @{
+                                                if (Session["ReturnMessage"] != null)
+                                                {
+                                                    <h6 class="text-danger">@Session["ReturnMessage"]</h6>
+
+                                                }
+                                                if (Session["ReturnSuccMessage"] != null)
+                                                {
+                                                    <h6 class="text-success font-weight-bolder">@Session["ReturnSuccMessage"]</h6>
+                                                }
+                                            }
+                                            <br />
+                                            <div class="logo">
+                                                <img class="img-fluid" src="@Url.Content(Model.tblCompany.Logo)" height="230" width="230" alt="Company-Logo" />
+                                                @*<i class="fa fa-plane fa-5x text-muted"></i>*@
+                                            </div>
+                                            <div class="info">
+                                                <h4>Company Details:</h4>
+                                                <hr />
+                                                <h6>Company : @Html.DisplayFor(model => model.tblCompany.Name) - <b>@Html.DisplayFor(model => model.tblBranch.BranchName)</b></h6>
+                                                <p>
+                                                    <address></address>Address : @Html.DisplayFor(model => model.tblBranch.BranchAddress)
+                                                    <br />
+                                                    Contact No : +91 @Html.DisplayFor(model => model.tblBranch.BranchContact)
+                                                </p>
+                                            </div>
+                                            <div class="title">
+                                                <h4> Purchase Invoice Details </h4>
+                                                <input style="display:none" id="supplierInvoiceID" name="supplierInvoiceID" value="@Model.SupplierInvoiceID" />
+                                                <hr />
+                                                <h5>Invoice: <strong class="text-primary">#@Html.DisplayFor(model => model.InvoiceNo)</strong></h5>
+                                                <p>
+                                                    Issued: @String.Format("{0:MMMM d, yyyy}", Model.InvoiceDate)
+                                                    <br />
+                                                    Created By: @Html.DisplayFor(model => model.tblUser.FullName)
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="invoice-mid clearfix">
+
+                                            <div class="clientlogo">
+                                                <i class="fa fa-truck fa-5x text-muted"></i>
+                                            </div>
+
+                                            <div class="info">
+                                                <h4>Supplier Details:</h4>
+                                                <hr />
+                                                <h6>Supplier : @Html.DisplayFor(model => model.tblSupplier.SupplierName)</h6>
+                                                <p>
+                                                    <address></address>Address : @Html.DisplayFor(model => model.tblSupplier.SupplierAddress)
+                                                    <br />
+                                                    Email : @Html.DisplayFor(model => model.tblSupplier.SupplierEmail)
+                                                    <br />
+                                                    Contact No : +91 @Html.DisplayFor(model => model.tblSupplier.SupplierConatctNo)
+                                                </p>
+                                            </div>
+
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table table-hover">
+                                                <thead class="thead-dark">
+                                                    <tr>
+                                                        <th>#</th>
+                                                        <th>Product</th>
+                                                        <th>Purchase Qty</th>
+                                                        <th>Return Purchase Qty</th>
+                                                        <th>Unit Price</th>
+                                                        <th style="width: 100px">Item Cost</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    @foreach (var item in Model.tblSupplierInvoiceDetails)
+                                                    {
+                                                        int qty = 0;
+                                                        double itemcost = 0;
+                                                        qty = item.PurchaseQuantity - item.tblSupplierReturnInvoiceDetails.Where(q => q.ProductID == item.ProductID).Sum(q => q.PurchaseReturnQuantity);
+                                                        itemcost = qty * item.purchaseUnitPrice;
+
+                                                        total = total + itemcost;
+                                                        <tr>
+                                                            <td>@serialNumber</td> <!-- Serial Number Column -->
+                                                            <td>@Html.DisplayFor(modelItem => item.tblStock.ProductName)</td>
+                                                            <td><label>@qty</label></td>
+                                                            <td>
+                                                                <input type="number" id="ProductID @item.ProductID" name="ProductID @item.ProductID" value="0" min="0" max="@qty" class="editor-style" />
+                                                                @*@Html.EditorFor(modelItem => item.PurchaseQuantity, new { htmlAttributes = new { @class = "editor-style" } })*@
+                                                            </td>
+                                                            <td>@Html.DisplayFor(modelItem => item.purchaseUnitPrice)</td>
+                                                            <td><label>@itemcost</label></td>
+                                                        </tr>
+                                                    }
+                                                </tbody>
+                                            </table>
+                                        </div>
+                                        <hr>
+                                        <div class="row clearfix">
+                                            <div class="col-md-6">
+                                                <h5>Note</h5>
+                                                <p>This is computer generated receipt and does not require physical signature.</p>
+                                            </div>
+                                            <div class="col-md-6 text-right">
+                                                <p class="mb-0"><b>Sub-total: </b>₹@total.ToString("F2")</p>
+                                                <p class="mb-0"><b>Total: </b>₹@total.ToString("F2")</p>
+                                                @*<p class="mb-0">Discout: 12.9%</p>*@
+                                                @*<p class="mb-0">VAT: 12.9%</p>*@
+                                                <hr />
+                                                <div class="form-group row">
+                                                    <label class="col-md-11 col-form-label">Is Return Purchase Payment Paid?</label>
+                                                    <div class="col-md-1 d-flex align-items-center">
+                                                        <label class="fancy-checkbox mb-0">
+                                                            <input type="checkbox" name="isPayment"><span></span>
+                                                        </label>
+                                                    </div>
+                                                </div>
+                                                <h3 class="mb-0 m-t-10">INR @total.ToString("F2")</h3>
+                                            </div>
+                                            <div class="col-md-12 text-right">
+                                                <hr>
+                                                @*<button onclick="window.print();" class="btn btn-outline-secondary" data-bs-toggle="tooltip" data-bs-placement="top" title="Before printing the invoice, please hide the sidebar for a better view/print."><i class="icon-printer"></i></button>*@
+                                                <button class="btn btn-primary">Return Item(s)</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                    catch
+                    {
+
+                    }
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 6000);
+</script>

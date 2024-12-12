@@ -1,0 +1,83 @@
+﻿@model IEnumerable<CloudERP_Model.Models.AccountControlMV>
+
+@{
+    string controllerName = "tblAccountControls";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Account's";
+    ViewBag.Title = "All Account Controls";
+}
+
+
+<a href="@Url.Action("Create")" class="btn btn-primary m-b-20">
+    <i class="icon-plus mr-1"></i> Add Account Control
+</a>
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Account Head
+                                </th>
+                                <th>
+                                    Account Control
+                                </th>
+                                <th>
+                                    Add (by)
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AccountHeadName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AccountControlName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.UserName)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.AccountControlID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Update">
+                                            <i class="icon-pencil"></i>
+                                        </a>
+                                        @*<a href="@Url.Action("Details", new { id = item.AccountControlID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-info" data-toggle="tooltip" data-original-title="Details">
+                                                <i class="icon-info"></i>
+                                            </a>*@
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Account Head
+                                </th>
+                                <th>
+                                    Account Controler
+                                </th>
+                                <th>
+                                    User
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

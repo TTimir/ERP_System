@@ -1,0 +1,114 @@
+﻿@model CloudERP_Model.Models.DashboardValueMV
+@{
+    string controllerName = "DashboardController";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Dashboard";
+    ViewBag.Title = "Company Analytics";
+    var culture = new System.Globalization.CultureInfo("en-IN");
+}
+
+<div class="row clearfix">
+    <!-- Current Month Revenue -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-info"><i class="fa fa-rupee"></i></div>
+                <div class="content">
+                    <div class="text">Current Month Revenue</div>
+                    <h5 class="number">@Model.CurrentMonthRevenue.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Month Expenses -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-danger"><i class="fa fa-pie-chart"></i></div>
+                <div class="content">
+                    <div class="text">Current Month Expense</div>
+                    <h5 class="number">@Model.CurrentMonthExpenses.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Net Income -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-success"><i class="fa fa-money"></i></div>
+                <div class="content">
+                    <div class="text">Net Income</div>
+                    <h5 class="number">@Model.NetIncome.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Capital -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-warning"><i class="fa fa-bank"></i></div>
+                <div class="content">
+                    <div class="text">Capital</div>
+                    <h5 class="number">@Model.Capital.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Current Month Recovery -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-primary"><i class="fa fa-recycle"></i></div>
+                <div class="content">
+                    <div class="text">Current Month Recovery</div>
+                    <h5 class="number">@Model.CurrentMonthRecovery.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cash/Bank Balance -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-secondary"><i class="fa fa-university"></i></div>
+                <div class="content">
+                    <div class="text">Cash + Bank Account</div>
+                    <h5 class="number">@Model.CashPlusBankAccount.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Receivable -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-success"><i class="fa fa-mail-reply-all"></i></div>
+                <div class="content">
+                    <div class="text">Total Receivable</div>
+                    <h5 class="number">@Model.TotalReceivable.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Total Payable -->
+    <div class="col-lg-3 col-md-6">
+        <div class="card top_counter">
+            <div class="body">
+                <div class="icon text-danger"><i class="fa fa-percent"></i></div>
+                <div class="content">
+                    <div class="text">Total Payable</div>
+                    <h5 class="number">@Model.TotalPayable.ToString("C2", culture)</h5>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

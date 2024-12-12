@@ -1,0 +1,145 @@
+﻿@model IEnumerable<DatabaseAccess.tblSupplier>
+
+@{
+    string controllerName = "PurchaseCart";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "NewPurchase";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "New Purchase";
+    ViewBag.Title = "Purchase Closure";
+}
+
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        @using (Html.BeginForm("PurchaseConfirm", "PurchaseCart", FormMethod.Post))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <div class="card">
+                <div class="body">
+                    <div class="form-horizontal">
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <strong style="font-weight:600">Oops! </strong> @ViewBag.Message
+                            </div>
+                        }
+
+                        <div class="form-group">
+                            <label class="control-label col-md-6">Purchase Description</label>
+                            <div class="col-md-12">
+                                <input type="text" id="item.Description" name="item.Description" placeholder="Enter Purchase Description" class="form-control" required />
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-md-6">Is Purchase Payment Paid?</label>
+                            <div class="col-md-12 fancy-checkbox">
+                                <label><input type="checkbox" name="isPayment"><span></span></label>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <div class="table-responsive">
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-info" role="alert">
+                                <strong style="font-weight:600">Info! </strong> @ViewBag.Message
+                            </div>
+                        }
+                        <table class="table table-hover">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th>#</th>
+                                    <th>
+                                        Supplier
+                                    </th>
+                                    <th>
+                                        Conatct No
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>Actiion's</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @for (int i = 0; i < Model.Count(); i++)
+                                {
+                                    var item = Model.ElementAt(i);
+                                    <tr>
+                                        <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SupplierName)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SupplierConatctNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.SupplierEmail)
+                                        </td>
+                                        <td>
+                                            <div class="fancy-checkbox">
+                                                <label><input type="checkbox" name="name @item.SupplierID" class="chb"><span></span></label>
+                                            </div>
+                                        </td>
+                                        @*<td>
+                                                @Html.ActionLink("Finalize", "PurchaseConfirm", new { id = item.SupplierID }, new { @class = "btn btn-primary" })
+                                            </td>*@
+                                    </tr>
+                                }
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Sr.No</th>
+                                    <th>
+                                        Supplier
+                                    </th>
+                                    <th>
+                                        ConatctNo
+                                    </th>
+                                    <th>
+                                        Email
+                                    </th>
+                                    <th>Actiion's</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                        <div class="form-group" style="float:right">
+                            <div class="col-md-offset-2 col-md-12">
+                                <button type="submit" class="btn btn-primary">
+                                    Finalize Purchasea
+                                </button>
+                                <a href="@Url.Action("NewPurchase", "PurchaseCart")" class="btn btn-default">
+                                    <i class="icon-arrow-left mr-2"></i> Back
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+<script>
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 6000);
+</script>
+<script>
+    $(document).ready(function () {
+        $('.chb').change(function (event) {
+            $('.chb').prop('checked', false);
+            $(this).prop('checked', true);
+        });
+    });
+</script>

@@ -1,0 +1,112 @@
+﻿@model IEnumerable<CloudERP_Model.Models.BranchsCustomerMV>
+
+@{
+    string controllerName = "tblCustomers";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Customer's";
+    ViewBag.Title = "Sub Branch Customers";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Company
+                                </th>
+                                <th>
+                                    Branch
+                                </th>
+                                <th>
+                                    Customer Name
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Area
+                                </th>
+                                <th>
+                                    Address
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    Add (by)
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CompanyName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.BranchName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Customername)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerContact)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerArea)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerAddress)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Description)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.User)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Company
+                                </th>
+                                <th>
+                                    Branch
+                                </th>
+                                <th>
+                                    Customer Name
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Area
+                                </th>
+                                <th>
+                                    Address
+                                </th>
+                                <th>
+                                    Description
+                                </th>
+                                <th>
+                                    User
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

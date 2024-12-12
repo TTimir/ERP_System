@@ -1,0 +1,141 @@
+﻿@model IEnumerable<DatabaseAccess.Model.JournalModel>
+
+@{
+    string controllerName = "GeneralTransactions";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Sub Branch Journals";
+    ViewBag.Title = "Sub Branch Journal List (By Date Transaction)";
+    string invoiceno = string.Empty;
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="tab-pane" id="Pay">
+                    <h6>Select Date (From Date and To Date)</h6>
+                    <div class="col-lg-12 col-md-12">
+
+                        @if (ViewBag.Message != null)
+                        {
+                            <div class="alert alert-danger" role="alert">
+                                <strong style="font-weight:600">Oops! </strong> @ViewBag.JournalMessage
+                            </div>
+                        }
+
+                        <div class="body">
+                            @using (Html.BeginForm("SubJournal", "GeneralTransactions", FormMethod.Post))
+                            {
+                                @Html.AntiForgeryToken()
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <label>Select Date (From)</label>
+                                        <input type="date" id="FromDate" name="FromDate" value="@DateTime.Now" class="form-control" required />
+                                    </div>
+
+                                    <div class="col-md-6">
+                                        <label>Select Date (To)</label>
+                                        <input type="date" id="ToDate" name="ToDate" value="@DateTime.Now" class="form-control" required />
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-6">
+
+                                    </div>
+                                </div>
+                                <br />
+                                <hr />
+                                <input type="submit" value="Get Transactions" class="btn btn-success" style="float:right; margin-bottom: 20px" />
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Date</th>
+                                <th>Account</th>
+                                <th>Title</th>
+                                <th>Invoice No</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                if (invoiceno != item.InvoiceNo)
+                                {
+                                    <tr style="background-color: aliceblue">
+                                        <!-- Serial Number Column -->
+                                        <td>@(i + 1)</td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TransectionDate)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AccountSubControl)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TransectionTitle)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Debit)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Credit)
+                                        </td>
+                                    </tr>
+                                }
+                                else
+                                {
+                                    <tr>
+                                        <!-- Serial Number Column -->
+                                        <td>@(i + 1)</td>
+                                        <td></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.AccountSubControl)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.TransectionTitle)
+                                        </td>
+                                        <td></td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Debit)
+                                        </td>
+                                        <td>
+                                            @Html.DisplayFor(modelItem => item.Credit)
+                                        </td>
+                                    </tr>
+                                }
+                                invoiceno = item.InvoiceNo;
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>Date</th>
+                                <th>Account</th>
+                                <th>Title</th>
+                                <th>Invoice No</th>
+                                <th>Debit</th>
+                                <th>Credit</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

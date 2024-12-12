@@ -1,0 +1,261 @@
+﻿@model IEnumerable<DatabaseAccess.Model.SalePaymentModel>
+
+@{
+    ViewBag.MainTitle = "Sale's Payments";
+    ViewBag.Title = "Sale Paid History";
+    double remainingbalance = 0;
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    Remaining Balance
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerContactNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.RemainingBalance)
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    Remaining Balance
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <h6 class="m-4">
+            Invoice Sale Return Details
+        </h6>
+        @{
+            double TotalReturnRemainingBalance = 0;
+            int noofinvoice = 0;
+
+            if (ViewData["ReturnSaleDetails"] != null)
+            {
+                var ReturnSaleDetail = ViewData["ReturnSaleDetails"] as List<DatabaseAccess.tblCustomerReturnInvoice>;
+                foreach (DatabaseAccess.tblCustomerReturnInvoice item in ReturnSaleDetail)
+                {
+                    noofinvoice = noofinvoice + 1;
+                    double invoiceremainingbalance = 0;
+                    double payamount = item.tblCustomerReturnPayments.Sum(s => s.PaidAmount);
+                    invoiceremainingbalance = item.TotalAmount - payamount;
+                    TotalReturnRemainingBalance = TotalReturnRemainingBalance + invoiceremainingbalance;
+
+                    <div class="body team_list">
+                        <div class="dd" data-plugin="nestable">
+
+                            <ol class="dd-list">
+                                <li class="dd-item" data-id="1">
+                                    <div class="dd-handle">Purcahse Return Details</div>
+                                    <div class="dd-content top_counter" id="@noofinvoice">
+                                        <div class="icon">
+                                            <img src="~/Content/assets/images/xs/avatar1.jpg" class="rounded-circle" alt="">
+                                        </div>
+                                        <div class="table-responsive">
+                                            <table class="table">
+                                                <tr>
+                                                    <th><div>Customer: <div>@item.tblCustomer.Customername</div></div> </th>
+                                                    <th><div>Invoice Date: <div>@item.InvoiceDate</div></div> </th>
+                                                    <th><div>Invoice No: <div>@item.InvoiceNo</div></div> </th>
+                                                    <th><div>Return Total: <div>@item.TotalAmount</div> </div></th>
+                                                    <th><div>Return Payment: <div>@payamount</div></div></th>
+                                                    <th><div>Remaining Return: <div>@invoiceremainingbalance</div></div></th>
+                                                </tr>
+                                            </table>
+                                        </div>
+                                    </div>
+                                    <ol class="dd-list">
+                                        <li class="dd-item" data-id="1">
+                                            <div class="dd-handle">Return Payment Details</div>
+                                            <div class="dd-content" id="@noofinvoice">
+                                                <div class="table-responsive">
+                                                    @if (payamount > 0)
+                                                    {
+                                                        <table class="table table-bordered table-striped table-hover">
+                                                            <thead>
+                                                                <tr>
+                                                                    <th>#</th>
+                                                                    <th>
+                                                                        Invoice No
+                                                                    </th>
+                                                                    <th>
+                                                                        Payment Date
+                                                                    </th>
+                                                                    <th>
+                                                                        Total Amount
+                                                                    </th>
+                                                                    <th>
+                                                                        Payment Amount
+                                                                    </th>
+                                                                    <th>
+                                                                        Remaining Balance
+                                                                    </th>
+                                                                </tr>
+                                                            </thead>
+                                                            <tbody>
+                                                                @if (item.tblCustomerReturnPayments != null && item.tblCustomerReturnPayments.Any())
+                                                                {
+                                                                    for (int i = 0; i < item.tblCustomerReturnPayments.Count(); i++)
+                                                                    {
+                                                                        var paymentDetails = item.tblCustomerReturnPayments.ElementAt(i);
+                                                                        <tr>
+                                                                            <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => paymentDetails.invoiceNo)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => paymentDetails.InvoiceDate)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => paymentDetails.TotalAmount)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => paymentDetails.PaidAmount)
+                                                                            </td>
+                                                                            <td>
+                                                                                @Html.DisplayFor(modelItem => paymentDetails.RemainingBalance)
+                                                                            </td>
+                                                                        </tr>
+                                                                    }
+                                                                }
+                                                                else
+                                                                {
+                                                                    <tr>
+                                                                        <td colspan="6">No payments found.</td>
+                                                                    </tr>
+                                                                }
+
+
+
+                                                            </tbody>
+                                                            <tfoot>
+                                                                <tr>
+                                                                    <th>Sr.No</th>
+                                                                    <th>
+                                                                        Invoice No
+                                                                    </th>
+                                                                    <th>
+                                                                        Date
+                                                                    </th>
+                                                                    <th>
+                                                                        Total Amount
+                                                                    </th>
+                                                                    <th>
+                                                                        Payment Amount
+                                                                    </th>
+                                                                    <th>
+                                                                        Remaining Balance
+                                                                    </th>
+                                                                </tr>
+                                                            </tfoot>
+                                                        </table>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="text-center">
+                                                            <p colspan="6">No payments found.</p>
+                                                        </div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </div>
+                    </div>
+
+                }
+
+            }
+            remainingbalance = ((double)ViewBag.PreviousRemainingAmount - TotalReturnRemainingBalance);
+        }
+    </div>
+</div>
+
+<div class="col-md-12 d-flex justify-content-end align-items-center">
+    <div class="col-md-6 d-flex align-items-center">
+        <h5 class="col-md-6 text-right">Remaining Total Balance:</h5>
+    </div>
+    <div class="col-md-4 d-flex align-items-center">
+        <h5 id="previousRemainingAmount">@(remainingbalance.ToString("F2"))</h5>
+    </div>
+</div>

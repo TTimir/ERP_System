@@ -1,0 +1,74 @@
+﻿@model DatabaseAccess.tblBranch
+
+@{
+    string controllerName = "tblBranches";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Branches";
+    ViewBag.Title = "Branch Details";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <dl class="row">
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.BranchName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.BranchName)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.BranchContact)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.BranchContact)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.BranchAddress)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.BranchAddress)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.CompanyID)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.CompanyID)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.BrchID)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.BrchID)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.tblBranchType.BranchType)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblBranchType.BranchType)
+                    </dd>
+
+                </dl>
+
+                <p>
+                    <a href="@Url.Action("Edit", new { id = Model.BranchID })" class="btn btn-primary">
+                        Edit Details
+                    </a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>

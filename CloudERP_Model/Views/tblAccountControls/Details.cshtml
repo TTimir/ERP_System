@@ -1,0 +1,59 @@
+﻿@model DatabaseAccess.tblAccountControl
+
+@{
+    string controllerName = "tblAccountControls";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "Index";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "All Account Controls";
+    ViewBag.Title = "Account Control Details";
+}
+
+<div>
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountHeadID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountHeadID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AccountControlName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AccountControlName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblBranch.BranchName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblBranch.BranchName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblCompany.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblCompany.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.tblUser.FullName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.tblUser.FullName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.AccountControlID }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

@@ -1,0 +1,249 @@
+﻿@model IEnumerable<DatabaseAccess.tblCustomerInvoiceDetail>
+
+@{
+    Layout = null;
+}
+
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>:: @Session["CName"] :: @ViewBag.Title</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Run & Co Business Managment">
+    <meta name="author" content="Timir Bhingradiya, design by: Timir Bhingradiya">
+    <link rel="icon" href="~/Content/img/favicon/fav-logo.png" type="image/x-icon">
+
+    <!-- VENDOR CSS -->
+    <link rel="stylesheet" href="~/Content/assets/vendor/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="~/Content/assets/vendor/font-awesome/css/font-awesome.min.css">
+
+    <!-- MAIN CSS -->
+    <link rel="stylesheet" href="~/Content/assets/css/main.css">
+
+</head>
+<body data-theme="light" class="font-nunito">
+    @{
+        double total = 0;
+    }
+    <div id="wrapper" class="theme-cyan">
+
+        <!-- Page Loader -->
+        <div class="page-loader-wrapper">
+            <div class="loader">
+                <div class="m-t-30"><img src="~/Content/assets/images/logo-icon.svg" width="48" height="48" alt="Iconic"></div>
+                <p>Please wait...</p>
+            </div>
+        </div>
+
+
+        <!-- mani page content body part -->
+        <div class="container-fluid mt-5">
+            <div class="row clearfix">
+                <div class="col-lg-12 col-md-12">
+                    <div class="card invoice1">
+                        <div class="body">
+                            <div class="invoice-top clearfix">
+                                <h2 class="fw-bolder text-success"> Sale Invoice </h2>
+                                <hr />
+                                <div class="info">
+                                    Company Name : <strong>@Model.FirstOrDefault().tblCustomerInvoice.tblCompany.Name</strong>
+                                    <hr />
+                                    Customer Name : @Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.Customername<br>
+                                    Customer Address : @Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.CustomerArea<br>
+                                    <abbr title="Phone">P:</abbr> @Model.FirstOrDefault().tblCustomerInvoice.tblCustomer.CustomerContact
+                                </div>
+                                <div class="title">
+                                    <h4>Invoice <strong class="text-primary">#@Model.FirstOrDefault().tblCustomerInvoice.InvoiceNo</strong></h4>
+                                    <p>
+                                        Invoice Date: @Model.FirstOrDefault().tblCustomerInvoice.InvoiceDate.ToString("MMMM dd, yyyy")<br>
+                                        Print Date: @DateTime.Now.ToString("dd/MM/yyyy hh:mm:ss tt")
+                                    </p>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="invoice-mid clearfix mb-2">
+
+                                <div class="clientlogo">
+                                    @{
+                                        string bimageUrl = "~/Content/Template/assets/images/default_company_logo.png";
+                                    }
+                                    <img src="@Url.Content(bimageUrl)" class="rounded-circle img-fluid" alt="Company's Branch Picture">
+                                </div>
+
+                                <div class="info">
+                                    Branch Name : @Model.FirstOrDefault().tblCustomerInvoice.tblBranch.BranchName<br>
+                                    Branch Address : @Model.FirstOrDefault().tblCustomerInvoice.tblBranch.BranchAddress<br>
+                                    <abbr title="Phone">P:</abbr> @Model.FirstOrDefault().tblCustomerInvoice.tblBranch.BranchContact
+                                </div>
+
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-hover">
+                                    <thead class="thead-dark">
+                                        <tr>
+                                            <th width="180px">#</th>
+                                            <th width="180px">
+                                                Product
+                                            </th>
+                                            <th width="180px">
+                                                Qty
+                                            </th>
+                                            <th width="180px">
+                                                Unit Price
+                                            </th>
+                                            <th width="180px">
+                                                Item Cost
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for (int i = 0; i < Model.Count(); i++)
+                                        {
+                                            var item = Model.ElementAt(i);
+                                            ViewBag.Title = "Sale Invoice No: " + item.tblCustomerInvoice.InvoiceNo;
+
+                                            int qty = 0;
+                                            double itemcost = 0;
+                                            qty = item.SaleQuantity - item.tblCustomerReturnInvoiceDetails.Where(q => q.ProductID == item.ProductID).Sum(q => q.SaleReturnQuantity);
+                                            itemcost = qty * item.SaleUnitPrice;
+                                            total = total + itemcost;
+                                            <tr>
+                                                <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.tblStock.ProductName)
+                                                </td>
+                                                <td>
+                                                    <label>@qty</label>
+                                                </td>
+                                                <td>
+                                                    @Html.DisplayFor(modelItem => item.SaleUnitPrice)
+                                                </td>
+                                                <td>
+                                                    <label><label>@itemcost</label></label>
+                                                </td>
+                                            </tr>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                            <hr>
+                            <div class="row clearfix">
+                                <div class="col-md-6">
+                                    <h5>Note</h5>
+                                    <p>This invoice is an electronically generated copy and does not require a physical signature.</p>
+                                </div>
+                                <div class="col-md-6 text-right">
+                                    <p class="mb-0"><b>Sub-total:</b> @total.ToString("F2")</p>
+                                    <p class="mb-0">Tax: 00.0%</p>
+                                    <h3 class="mb-0 m-t-10">INR @total.ToString("F2")</h3>
+                                </div>
+                            </div>
+                        </div>
+
+                        <br />
+                        <br />
+                        <hr />
+                        <br />
+                        <br />
+
+                        @*Sale Return History*@
+                        @foreach (var item in Model)
+                        {
+                            if (item.tblCustomerReturnInvoiceDetails.Where(s => s.CustomerInvoiceID == item.CustomerInvoiceID).FirstOrDefault() != null)
+                            {
+                                double returntotal = 0;
+                                <div class="col-lg-12 col-md-12">
+                                    <h2 class="fw-bolder text-danger"> Sale Return Invoice </h2>
+                                    <div class="invoice-top clearfix">
+                                        <div class="title">
+                                            <h4>Return Invoice: <strong class="text-primary">#@item.tblCustomerReturnInvoiceDetails.FirstOrDefault().tblCustomerInvoice.InvoiceNo</strong></h4>
+                                            <p>
+                                                Return Invoice Date: @item.tblCustomerReturnInvoiceDetails.FirstOrDefault().tblCustomerInvoice.InvoiceDate.ToString("MMMM dd, yyyy")<br>
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead class="thead-dark">
+                                                <tr>
+                                                    <th width="180px">#</th>
+                                                    <th width="180px">
+                                                        Return Product
+                                                    </th>
+                                                    <th width="180px">
+                                                        Return Qty
+                                                    </th>
+                                                    <th width="180px">
+                                                        Unit Price
+                                                    </th>
+                                                    <th width="180px">
+                                                        Item Cost
+                                                    </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @for (int i = 0; i < item.tblCustomerReturnInvoiceDetails.Count(); i++)
+                                                {
+                                                    var returnItem = item.tblCustomerReturnInvoiceDetails.ElementAt(i);
+
+                                                    int qty = 0;
+                                                    double itemcost = 0;
+                                                    qty = returnItem.SaleReturnQuantity;
+                                                    itemcost = qty * returnItem.SaleReturnUnitPrice;
+                                                    returntotal = returntotal + itemcost;
+                                                    <tr>
+                                                        <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => returnItem.tblStock.ProductName)
+                                                        </td>
+                                                        <td>
+                                                            <label>@qty</label>
+                                                        </td>
+                                                        <td>
+                                                            @Html.DisplayFor(modelItem => returnItem.SaleReturnUnitPrice)
+                                                        </td>
+                                                        <td>
+                                                            <label><label>@itemcost</label></label>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <hr>
+                                    <div class="row clearfix">
+                                        <div class="col-md-6">
+                                            <h5>Note</h5>
+                                            <p>This invoice is an electronically generated copy and does not require a physical signature.</p>
+                                        </div>
+                                        <div class="col-md-6 text-right">
+                                            <p class="mb-0"><b>Sub-total:</b> @returntotal.ToString("F2")</p>
+                                            <p class="mb-0">Tax: 00.0%</p>
+                                            <h3 class="mb-0 m-t-10">INR @returntotal.ToString("F2")</h3>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        }
+                        <div class="hidden-print col-md-12 mb-2 text-right">
+                            <button class="btn btn-outline-secondary" onclick="window.print()"><i class="icon-printer"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+
+        <!-- Javascript -->
+        <script src="~/Content/assets/bundles/libscripts.bundle.js"></script>
+        <script src="~/Content/assets/bundles/vendorscripts.bundle.js"></script>
+
+
+        <!-- page js file -->
+        <script src="~/Content/assets/bundles/mainscripts.bundle.js"></script>
+</body>
+</html>
+

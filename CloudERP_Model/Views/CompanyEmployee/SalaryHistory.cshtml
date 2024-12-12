@@ -1,0 +1,118 @@
+﻿@model IEnumerable<DatabaseAccess.tblPayroll>
+
+@{
+    string controllerName = "BranchEmployee";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "Employee";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "Branch's";
+    ViewBag.Title = "Salary Paid List";
+}
+
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Employee
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Payment Date
+                                </th>
+                                <th>
+                                    Paid Salary
+                                </th>
+                                <th>
+                                    Salary Month
+                                </th>
+                                <th>
+                                    Salary Year
+                                </th>
+                                <th>
+                                    Add (by)
+                                </th>
+                                <th>
+                                    Salary Invoice
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tblEmployee.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PayrollInvoiceNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.PaymentDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TransferAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SalaryMonth)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SalaryYear)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tblUser.FullName)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("PrintSalaryInvoice", "CompanyEmployee", new { id = item.PayrollID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-print" data-toggle="tooltip" data-original-title="Print Payroll Invoice">
+                                            <i class="icon-printer"></i> Print Payroll
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Employee
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Payment Date
+                                </th>
+                                <th>
+                                    Paid Salary
+                                </th>
+                                <th>
+                                    Salary Month
+                                </th>
+                                <th>
+                                    Salary Year
+                                </th>
+                                <th>
+                                    Add (by)
+                                </th>
+                                <th>
+                                    Salary Invoice
+                                </th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

@@ -1,0 +1,170 @@
+﻿@model DatabaseAccess.Model.IncomeStatmentModel
+
+@{
+    ViewBag.Title = "Sub Branch Income Statment";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="tab-pane" id="Pay">
+                    @using (Html.BeginForm("GetSubIncomeStatment", "IncomeStatment", FormMethod.Post))
+                    {
+                        @Html.AntiForgeryToken()
+                        <br />
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label>Select Financial Year</label>
+                                <select class="form-control" id="id" name="id" required></select>
+                            </div>
+                            <div class="col-md-1 d-flex align-items-end">
+                                <input type="submit" value="Get Income Statment" class="btn btn-success ml-auto" />
+                            </div>
+                        </div>
+                        <br />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="cs-container">
+    <div class="cs-invoice cs-style1">
+        <div class="cs-invoice_in" id="download_section">
+
+            <div class="cs-ticket_wrap cs-mb20">
+                <div class="cs-ticket_left">
+                    <b class="cs-primary_color">Must Read:</b>
+                    <p>The accuracy of the online income statment depends on the information you provided, so please double-check your data for accurate results.</p>
+                </div>
+                <div class="cs-ticket_right">
+                    <div class="cs-box cs-style1 cs-text_center">
+                        <p class="cs-mb5">Net Income: </p>
+                        <p class="cs-accent_color cs-f22 cs-bold cs-mb0">₹ @Model.NetIncome</p>
+                    </div>
+                </div>
+            </div>
+            <div class="cs-table cs-style2 cs-mb15">
+                <div class="cs-round_border">
+                    <div class="cs-table_responsive">
+                        <table>
+                            <thead>
+                                <tr class="cs-focus_bg">
+                                    <th class="cs-width_8 cs-semi_bold cs-primary_color">Account Title</th>
+                                    <th class="cs-width_2 cs-semi_bold cs-primary_color">Amount</th>
+                                    <th class="cs-width_2 cs-semi_bold cs-primary_color cs-text_right">Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var accounthead in Model.incomeStatmentHeads)
+                                {
+                                    <tr>
+                                        <td class="cs-primary_color cs-bold cs-f15">@accounthead.Title</td>
+                                        <td class="cs-width_2"></td>
+                                        <td class="cs-width_2 cs-text_right"></td>
+                                    </tr>
+                                    foreach (var accounts in accounthead.AccountHead.AccountHeadDetails)
+                                    {
+                                        <tr>
+                                            <td class="cs-width_8">@accounts.AccountSubTitle</td>
+                                            @if (accounts.Status == "Debit")
+                                            {
+                                                if (accounts.AccountSubTitle.Contains("Revenue"))
+                                                {
+                                                    <td class="cs-width_2">(@accounts.TotalAmount)</td>
+                                                }
+                                                else if (accounts.AccountSubTitle.Contains("Expenses"))
+                                                {
+                                                    <td class="cs-width_2">@accounts.TotalAmount</td>
+                                                }
+                                            }
+                                            else
+                                            {
+                                                if (accounts.AccountSubTitle.Contains("Revenue"))
+                                                {
+                                                    <td class="cs-width_2">@accounts.TotalAmount</td>
+                                                }
+                                                else if (accounts.AccountSubTitle.Contains("Expenses"))
+                                                {
+                                                    <td class="cs-width_2">(@accounts.TotalAmount)</td>
+                                                }
+                                            }
+                                            <td class="cs-width_2 cs-text_right"></td>
+                                        </tr>
+                                    }
+
+                                    if (accounthead.Title.Contains("Revenue"))
+                                    {
+                                        <tr style="background-color:gray; color:white;">
+                                            <td class="cs-width_8">Total Revenue</td>
+                                            <td class="cs-width_2"></td>
+                                            <td class="cs-width_2 cs-text_right">
+                                                ₹ @accounthead.TotalAmount
+                                            </td>
+                                        </tr>
+                                    }
+                                    else if (accounthead.Title.Contains("Expenses"))
+                                    {
+                                        <tr style="background-color:azure; color:black;">
+                                            <td class="cs-width_8">Total Expenses</td>
+                                            <td class="cs-width_2"></td>
+                                            <td class="cs-width_2 cs-text_right">
+                                                @accounthead.TotalAmount
+                                            </td>
+                                        </tr>
+                                    }
+                                }
+                                <tr style="background-color:black; color:white;">
+                                    <td class="cs-width_8">Net Income</td>
+                                    <td class="cs-width_2"></td>
+                                    <td class="cs-width_2 cs-text_right">₹ @Model.NetIncome</td>
+                                </tr>
+                            </tbody>
+                        </table>
+
+                    </div>
+                </div>
+                <hr />
+            </div>
+            <div class="cs-note">
+                <div class="cs-note_left">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path d="M416 221.25V416a48 48 0 01-48 48H144a48 48 0 01-48-48V96a48 48 0 0148-48h98.75a32 32 0 0122.62 9.37l141.26 141.26a32 32 0 019.37 22.62z" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></path><path d="M256 56v120a32 32 0 0032 32h120M176 288h160M176 368h160" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path></svg>
+                </div>
+                <div class="cs-note_right">
+                    <p class="cs-mb0"><b class="cs-primary_color cs-bold">Note:</b></p>
+                    <p class="cs-m0">This is an auto-generated income statment. For any questions, contact support.</p>
+                </div>
+            </div><!-- .cs-note -->
+        </div>
+        <div class="cs-invoice_btns cs-hide_print">
+            <a href="javascript:window.print()" class="cs-invoice_btn cs-color1" title="Please ensure that both sidebars are hidden for an improved print view.">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><path d="M384 368h24a40.12 40.12 0 0040-40V168a40.12 40.12 0 00-40-40H104a40.12 40.12 0 00-40 40v160a40.12 40.12 0 0040 40h24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></path><rect x="128" y="240" width="256" height="208" rx="24.32" ry="24.32" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></rect><path d="M384 128v-24a40.12 40.12 0 00-40-40H168a40.12 40.12 0 00-40 40v24" fill="none" stroke="currentColor" stroke-linejoin="round" stroke-width="32"></path><circle cx="392" cy="184" r="24"></circle></svg>
+                <span>Print</span>
+            </a>
+            <button id="download_btn" class="cs-invoice_btn cs-color2">
+                <svg xmlns="http://www.w3.org/2000/svg" class="ionicon" viewbox="0 0 512 512"><title>Download</title><path d="M336 176h40a40 40 0 0140 40v208a40 40 0 01-40 40H136a40 40 0 01-40-40V216a40 40 0 0140-40h40" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"></path><path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32" d="M176 272l80 80 80-80M256 48v288"></path></svg>
+                <span>Download</span>
+            </button>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: "GET",
+            url: "/TrialBalance/GetFinancialYear",
+            data: {},
+            dataType: "Json",
+            success: function (response) {
+                $('#id').append("<option value='0'>Select Financial Year</option>");
+                for (var i = 0; i < response.data.length; i++) {
+                    $('#id').append("<option value=" + response.data[i].FinancialYearID + ">" + response.data[i].FinancialYear + " </option>");
+                }
+            }
+        });
+    });
+</script>

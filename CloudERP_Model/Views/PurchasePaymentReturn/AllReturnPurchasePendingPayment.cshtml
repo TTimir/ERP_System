@@ -1,0 +1,165 @@
+﻿@model IEnumerable<DatabaseAccess.Model.PurchasePaymentModel>
+
+@{
+    string controllerName = "PurchasePaymentReturn";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Purchase's";
+    ViewBag.Title = "All Return Purchase(Return Payment Pending)";
+}
+
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Supplier
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Return Products (Total Amount)
+                                </th>
+                                <th>
+                                    After Return (Total Amount)
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    Payment Amount
+                                </th>
+                                <th>
+                                    Remaining Balance
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SupplierName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.SupplierContactNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReturnProductAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
+                                    </td>
+                                    <td>
+                                        @if (item.PaymentAmount == 0 && item.AfterReturnTotalAmount > 0)
+                                        {
+                                            <a href="@Url.Action("PaidAmount", "PurchasePayment", new { id = item.SupplierInvoiceID })" class="btn btn-sm btn-icon btn-pure btn-default on-default text-success m-r-5 button-h" data-toggle="tooltip" data-original-title="Pay Amount">
+                                                <i class="icon-check mr-1"></i> Set Payment
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <label>@*@(item.AfterReturnTotalAmount - item.PaymentAmount)*@</label>
+                                            @Html.DisplayFor(modelItem => item.PaymentAmount)
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
+                                    </td>
+                                    <td>
+                                        @*<button href="#largeModal" data-toggle="modal" data-target="#largeModal" class="btn btn-outline-danger rounded-4" type="submit">@item.RemainingBalance</button>*@
+                                        @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnPurchasePendingAmount", "PurchasePaymentReturn", new { @id = item.SupplierInvoiceID }, new { @type = "button", @class = "btn btn-outline-danger rounded-4" })
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
+                                            {
+                                                <a href="@Url.Action("PaidHistory", "PurchasePayment", new { id = item.SupplierInvoiceID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-h" data-toggle="tooltip" data-original-title="Pay History">
+                                                    <i class="icon-clock mr-1"></i> History
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <i class="icon-clock ml-2"></i>
+                                                <label class="text-danger text-center mr-3"><b>No History</b></label>
+                                            }
+
+                                            <a href="@Url.Action("PurchaseItemDetail", "PurchasePayment", new { id = item.SupplierInvoiceID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-h" data-toggle="tooltip" data-original-title="Item Details">
+                                                <i class="icon-book-open mr-1"></i> View Detail
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Supplier
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                                <th>
+                                    Total Amount
+                                </th>
+                                <th>
+                                    Return Products (Total Amount)
+                                </th>
+                                <th>
+                                    After Return (Total Amount)
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    Payment Amount
+                                </th>
+                                <th>
+                                    Remaining Balance
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

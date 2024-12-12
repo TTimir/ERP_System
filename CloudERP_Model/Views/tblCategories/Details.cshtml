@@ -1,0 +1,63 @@
+﻿@model DatabaseAccess.tblCategory
+
+@{
+    string controllerName = "tblCategories";
+    ViewBag.ControllerName = controllerName;
+    string actionaName = "Index";
+    ViewBag.ActionaName = actionaName;
+    ViewBag.MainTitle = "All Categories";
+    ViewBag.Title = "Stocks Details";
+}
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <dl class="row">
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.categoryName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.categoryName)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.tblBranch.BranchName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblBranch.BranchName)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.tblCompany.Name)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblCompany.Name)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.tblUser.FullName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblUser.FullName)
+                    </dd>
+
+                </dl>
+
+                <p>
+                    <a href="@Url.Action("Edit", "tblCategories", new { id = Model.CategoryID })" class="btn btn-primary ml-3">
+                        Edit info
+                    </a>
+                    <a href="@Url.Action("Index", "tblCategories")" class="btn btn-default">
+                        <i class="feather icon-arrow-left mr-2"></i> Back
+                    </a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</div>

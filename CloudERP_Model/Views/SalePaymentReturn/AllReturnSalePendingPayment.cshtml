@@ -1,0 +1,181 @@
+﻿@model IEnumerable<DatabaseAccess.Model.SalePaymentModel>
+
+@{
+    string controllerName = "SalePaymentReturn";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Sale's";
+    ViewBag.Title = "All Return Sale(Return Payment Pending)";
+}
+
+@if (Session["ReturnMessage"] != null)
+{
+    <div class="alert alert-info" role="alert">
+        <strong style="font-weight:600">Oops! </strong> @Session["ReturnMessage"]
+    </div>
+}
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                                <th>
+                                    Sale Total Amount
+                                </th>
+                                <th>
+                                    Return Products (Total Amount)
+                                </th>
+                                <th>
+                                    After Return (Total Amount)
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    Payment To (Customer)
+                                </th>
+                                <th>
+                                    Remaining Balance
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerContactNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceNo)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.InvoiceDate)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.TotalAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReturnProductAmount)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.AfterReturnTotalAmount)
+                                    </td>
+                                    <td>
+                                        @if (item.PaymentAmount == 0)
+                                        {
+                                            <a href="@Url.Action("PaidAmount", "SalePayment", new { id = item.CustomerInvoiceID })" class="btn btn-sm btn-icon btn-pure btn-default on-default text-success m-r-5 button-h" data-toggle="tooltip" data-original-title="Pay Amount">
+                                                <i class="icon-check mr-1"></i> Set Paid
+                                            </a>
+                                        }
+                                        else
+                                        {
+                                            <label>@Html.DisplayFor(modelItem => item.PaymentAmount)</label>
+                                        }
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.ReturnPaymentAmount)
+                                    </td>
+                                    <td>
+                                        @if (item.RemainingBalance == 0 && item.PaymentAmount != 0)
+                                        {
+                                            <i class="icon-check"></i>
+                                            <label class="text-success">Clear</label>
+                                        }
+                                        else if (item.RemainingBalance < 0)
+                                        {
+                                            @*<button href="#largeModal" data-toggle="modal" data-target="#largeModal" class="btn btn-outline-danger rounded-4" type="submit">@item.RemainingBalance</button>*@
+                                            @Html.ActionLink(item.RemainingBalance.ToString("F2"), "ReturnSalePendingAmount", "SalePaymentReturn", new { @id = item.CustomerInvoiceID }, new { @type = "button", @class = "btn btn-outline-danger rounded-4" })
+                                        }
+                                        else
+                                        {
+                                            <label class="text-danger">@(item.TotalAmount - item.PaymentAmount)</label>
+                                            <label class="text-danger">@*@Html.DisplayFor(modelItem => item.RemainingBalance)*@</label>
+                                        }
+                                    </td>
+                                    <td>
+                                        @{
+                                            if (item.RemainingBalance < item.TotalAmount && item.PaymentAmount != 0)
+                                            {
+                                                <a href="@Url.Action("PaidHistory", "SalePayment", new { id = item.CustomerInvoiceID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-h" data-toggle="tooltip" data-original-title="Paid History">
+                                                    <i class="icon-clock mr-1"></i> History
+                                                </a>
+                                            }
+                                            else
+                                            {
+                                                <i class="icon-clock ml-2"></i>
+                                                <label class="text-danger text-center mr-3"><b>No History</b></label>
+                                            }
+
+                                            <a href="@Url.Action("SaleItemDetail", "SalePayment", new { id = item.CustomerInvoiceID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-h" data-toggle="tooltip" data-original-title="Item Details">
+                                                <i class="icon-book-open mr-1"></i> View Detail
+                                            </a>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Invoice No
+                                </th>
+                                <th>
+                                    Invoice Date
+                                </th>
+                                <th>
+                                    Sale Total Amount
+                                </th>
+                                <th>
+                                    Return Products (Total Amount)
+                                </th>
+                                <th>
+                                    After Return (Total Amount)
+                                </th>
+                                <th>
+                                    Paid Amount
+                                </th>
+                                <th>
+                                    Payment To (Customer)
+                                </th>
+                                <th>
+                                    Remaining Balance
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

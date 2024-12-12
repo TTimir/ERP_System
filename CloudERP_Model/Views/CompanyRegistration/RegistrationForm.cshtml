@@ -1,0 +1,121 @@
+﻿
+@{
+    string controllerName = "tblCompanies";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Company Operations";
+    ViewBag.Title = "Company Registration";
+}
+
+
+@using (Html.BeginForm("RegistrationForm", "CompanyRegistration", FormMethod.Post, new { id = "wizard_with_validation" }))
+{
+    @Html.AntiForgeryToken()
+
+    <h3>
+        User Profile
+        <br />
+        <small>Enter User Details</small>
+    </h3>
+    <fieldset>
+        <h5>Enter User Creds</h5>
+        <br />
+        <div class="form-group form-float">
+            <input type="text" class="form-control" placeholder="Username *" name="UserName" id="UserName" required="">
+        </div>
+        <div class="form-group form-float">
+            <input type="password" class="form-control" placeholder="Password *" name="Password" id="Password" required="" oninput="validatePasswords()">
+        </div>
+        <div class="form-group form-float">
+            <input type="password" class="form-control" placeholder="Confirm Password *" name="ConPassword" id="ConPassword" required="" oninput="validatePasswords()">
+            <span id="passwordError" class="text-danger"></span>
+        </div>
+        <p><ins class="text-danger"><em>(*) Mandatory</em></ins></p>
+    </fieldset>
+    <h3>
+        Person Profile
+        <br />
+        <small>Enter Focal Person Details</small>
+    </h3>
+    <fieldset>
+        <h5>Enter Focal Person Details</h5>
+        <br />
+        <div class="form-group form-float">
+            <input type="text" name="EmpName" id="EmpName" placeholder="Employee Name *" class="form-control" required="">
+        </div>
+        <div class="form-group form-float">
+            <input type="text" maxlength="10" name="EmpContactNo" id="EmpContactNo" placeholder="Contact No *" class="form-control" required="">
+            <span class="help-block">9999999999</span>
+        </div>
+        <div class="form-group form-float">
+            <input type="email" name="EmpEmail" id="EmpEmail" placeholder="Email *" class="form-control" required="">
+            <span class="help-block">example@example.com</span>
+        </div>
+        <div class="form-group form-float">
+            <input type="text" maxlength="13" name="EmpCNIC" id="EmpCNIC" placeholder="Computerized National Identity Card (CNIC) *" class="form-control" required="">
+        </div>
+        <div class="form-group form-float">
+            <input type="text" name="EmpDesignation" id="EmpDesignation" placeholder="Designation *" class="form-control" required="">
+        </div>
+        <div class="form-group form-float">
+            <input type="number" name="EmpMonthlySalary" id="EmpMonthlySalary" placeholder="Basic Salary *" class="form-control" required="">
+        </div>
+        <div class="form-group form-float">
+            <textarea name="EmpAddress" id="EmpAddress" cols="30" rows="3" placeholder="Address *" class="form-control no-resize" required=""></textarea>
+        </div>
+        <p><ins class="text-danger"><em>(*) Mandatory</em></ins></p>
+    </fieldset>
+    <h3>
+        Company Profile
+        <br />
+        <small>Enter Company Details</small>
+    </h3>
+    <fieldset>
+        <h5>Enter Company Details</h5>
+        <div class="form-group form-float">
+            <input type="text" name="CName" id="CName" placeholder="Company Title*" class="form-control" required="">
+        </div>
+        <div class="form-group form-float">
+            <input type="text" name="BranchName" id="BranchName" placeholder="Branch Name *" class="form-control" required="">
+        </div>
+        <div class="form-group form-float">
+            <input type="text" maxlength="10" name="BranchContact" id="BranchContact" placeholder="Contact No *" class="form-control" required="">
+            <span class="help-block">(999) 999-9999</span>
+        </div>
+        <div class="form-group form-float">
+            <textarea name="BranchAddress" id="BranchAddress" cols="30" rows="3" placeholder="Address *" class="form-control no-resize" required=""></textarea>
+        </div>
+        <p><ins class="text-danger"><em>(*) Mandatory</em></ins></p>
+    </fieldset>
+}
+
+<script>
+    // Validate passwords function
+    function validatePasswords() {
+        var password = document.getElementById("Password").value;
+        var confirmPassword = document.getElementById("ConPassword").value;
+        var errorElement = document.getElementById("passwordError");
+
+        if (password !== confirmPassword) {
+            errorElement.textContent = "Passwords do not match!";
+            return false;  // Validation fails
+        } else {
+            errorElement.textContent = "";
+            return true;  // Validation passes
+        }
+    }
+
+    // Prevent form submission if passwords do not match
+    document.getElementById("wizard_with_validation").addEventListener("submit", function (e) {
+        if (!validatePasswords()) {
+            e.preventDefault();  // Prevent form submission if passwords don't match
+            alert("Passwords do not match. Please correct before proceeding.");
+        }
+    });
+</script>
+<script>
+    window.setTimeout(function () {
+        $(".alert").fadeTo(500, 0).slideUp(500, function () {
+            $(this).remove();
+        });
+    }, 6000);
+</script>

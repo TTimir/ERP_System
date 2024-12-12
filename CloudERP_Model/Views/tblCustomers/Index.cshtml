@@ -1,0 +1,114 @@
+﻿@model IEnumerable<DatabaseAccess.tblCustomer>
+
+@{
+    string controllerName = "tblCustomers";
+    ViewBag.ControllerName = controllerName;
+    ViewBag.MainTitle = "Customer's";
+    ViewBag.Title = "All Branch Customers";
+}
+
+@*<a href="@Url.Action("Create")" class="btn btn-primary m-b-20">
+        <i class="icon-plus mr-1"></i> Add Branch Customer
+    </a>*@
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-bordered table-striped table-hover dataTable js-exportable">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>
+                                    Company
+                                </th>
+                                <th>
+                                    Branch
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Area
+                                </th>
+                                <th>
+                                    Address
+                                </th>
+                                <th>
+                                    Add (by)
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @for (int i = 0; i < Model.Count(); i++)
+                            {
+                                var item = Model.ElementAt(i);
+                                <tr>
+                                    <td>@(i + 1)</td> <!-- Serial Number Column -->
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tblCompany.Name)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tblBranch.BranchName)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.Customername)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerContact)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerArea)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.CustomerAddress)
+                                    </td>
+                                    <td>
+                                        @Html.DisplayFor(modelItem => item.tblUser.FullName)
+                                    </td>
+                                    <td>
+                                        <a href="@Url.Action("Edit", new { id = item.CustomerID })" class="btn btn-sm btn-icon btn-pure btn-default on-default m-r-5 button-edit" data-toggle="tooltip" data-original-title="Update">
+                                            <i class="icon-pencil" aria-hidden="true"></i>
+                                        </a>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>Sr.No</th>
+                                <th>
+                                    Company
+                                </th>
+                                <th>
+                                    Branch
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                                <th>
+                                    Contact No
+                                </th>
+                                <th>
+                                    Area
+                                </th>
+                                <th>
+                                    Address
+                                </th>
+                                <th>
+                                    User
+                                </th>
+                                <th>Action's</th>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

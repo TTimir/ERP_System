@@ -1,0 +1,81 @@
+﻿@model DatabaseAccess.tblSupplier
+
+@{
+    ViewBag.Title = "Supplier Details";
+}
+
+
+<div class="row clearfix">
+    <div class="col-lg-12">
+        <div class="card">
+            <div class="body">
+                <dl class="row">
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.SupplierName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.SupplierName)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.SupplierConatctNo)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.SupplierConatctNo)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.SupplierAddress)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.SupplierAddress)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.SupplierEmail)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.SupplierEmail)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.Discription)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.Discription)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.tblBranch.BranchName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblBranch.BranchName)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        Company Name
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblCompany.Name)
+                    </dd>
+
+                    <dt class="col-sm-3 font-weight-bold">
+                        @Html.DisplayNameFor(model => model.tblUser.FullName)
+                    </dt>
+
+                    <dd class="col-sm-9">
+                        @Html.DisplayFor(model => model.tblUser.FullName)
+                    </dd>
+
+                </dl>
+            </div>
+        </div>
+    </div>
+</div>
